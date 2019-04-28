@@ -5,6 +5,12 @@ using namespace Rcpp;
 #include <progress.hpp>
 #include <progress_bar.hpp>
 
+// Compute quantiles
+NumericVector quantile(NumericVector x, NumericVector q) {
+  std::sort(x.begin(), x.end());
+  return x[x.size() * q];
+}
+
 // [[Rcpp::export]]
 List strange_attractor_cpp(NumericVector a, int n, double x0, double y0, bool display_progress=true) {
   double a1 = a[0];
@@ -29,19 +35,27 @@ List strange_attractor_cpp(NumericVector a, int n, double x0, double y0, bool di
   // return xx;
   NumericVector x(n);
   NumericVector y(n);
-  x[0]=x0;
-  y[0]=y0;
+  x[0] = x0;
+  y[0] = y0;
 
-  Progress p(n, display_progress);
+  // Initialize progress bar
+  const int increment_every = 1e5;
+  Progress p(ceil(n / increment_every), display_progress);
+
+  for(int i = 0; i < n - 1; ++i) {
+
+    if (i % increment_every == 0 ) {
+      // check for esc key and interrupt calculation
+      if (Progress::check_abort()) {
+        return DataFrame::create(_["x"]= x, _["y"]= y);
+      }
+      // update progress bar
+      p.increment();
+    }
 
 
-  for(int i = 1; i < n; ++i) {
-    // if (Progress::check_abort() )
-    //   return -1.0;
-    p.increment(); // update progress
-
-    x[i] = a1+a2*x[i-1]+ a3*y[i-1]+ a4*pow(fabs(x[i-1]), a5)+ a6*pow(fabs(y[i-1]), a7);
-    y[i] = a8+a9*x[i-1]+ a10*y[i-1]+ a11*pow(fabs(x[i-1]), a12)+ a13*pow(fabs(y[i-1]), a14);
+    x[i+1] = a1 + a2*x[i] +  a3*y[i] +  a4*pow(fabs(x[i]), a5)  +  a6*pow(fabs(y[i]),  a7);
+    y[i+1] = a8 + a9*x[i] + a10*y[i] + a11*pow(fabs(x[i]), a12) + a13*pow(fabs(y[i]), a14);
   }
   // return a new data frame
   return DataFrame::create(_["x"]= x, _["y"]= y);
