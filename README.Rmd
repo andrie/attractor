@@ -17,7 +17,14 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of attractor is to discretize data in a data frame (x and y) to a matrix for fast visualizationn
+The goal of `attractor` is to generate and plot strange attractors.
+
+Using this package is fast, because:
+
+1. The attractor algorithm uses `Rcpp` for speed.
+1. The resulting attractor is discretized (binned) into a much smaller matrix, making plotting very fast.
+
+
 
 ## Installation
 
@@ -54,6 +61,9 @@ dat %>%
   recolour() %>% 
   plot()
 ```
+
+
+## Recolour the plot
 
 Use `recolour()` to change the colours. You can use any of the colours defined by the `scales::col_numeric()` function. From the help of `?scales::col_numeric()`:
 

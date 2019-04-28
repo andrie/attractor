@@ -7,8 +7,13 @@
 
 <!-- badges: end -->
 
-The goal of attractor is to discretize data in a data frame (x and y) to
-a matrix for fast visualizationn
+The goal of `attractor` is to generate and plot strange attractors.
+
+Using this package is fast, because:
+
+1.  The attractor algorithm uses `Rcpp` for speed.
+2.  The resulting attractor is discretized (binned) into a much smaller
+    matrix, making plotting very fast.
 
 ## Installation
 
@@ -49,6 +54,8 @@ dat %>%
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+## Recolour the plot
 
 Use `recolour()` to change the colours. You can use any of the colours
 defined by the `scales::col_numeric()` function. From the help of
