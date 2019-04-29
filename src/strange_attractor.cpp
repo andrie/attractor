@@ -27,12 +27,7 @@ List strange_attractor_cpp(NumericVector a, int n, double x0, double y0, bool di
   double a12 = a[11];
   double a13 = a[12];
   double a14 = a[13];
-  // NumericMatrix xx(4, 5);
-  // int xsize = xx.nrow() * xx.ncol();
-  // for (int i = 0; i < xsize; i++) {
-  //   xx[i] = 7;
-  // }
-  // return xx;
+
   NumericVector x(n);
   NumericVector y(n);
   x[0] = x0;

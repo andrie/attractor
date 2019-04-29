@@ -1,5 +1,5 @@
 Package: attractor
-Title: Discretizes values
+Title: Create and Plot Strange Attractors
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Andrie",
@@ -7,7 +7,10 @@ Authors@R:
            role = c("aut", "cre"),
            email = "apdevries@gmail.com"
            )
-Description: Discretizes values.
+Description: Create and Plot Strange Attractors.  The package is fast, because 
+    the attractor algorithm uses `Rcpp` for speed. In addition, the resulting 
+    attractor is discretized (binned) into a much smaller matrix, making plotting 
+    very fast.
 License: MIT + file LICENSE
 VignetteBuilder: rmarkdown
 Encoding: UTF-8

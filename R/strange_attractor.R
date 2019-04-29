@@ -4,6 +4,7 @@
 #' @param n Number of points to generate
 #' @param x0 Initial value for x
 #' @param y0 Initial value for y
+#' @param progress If TRUE, displays a progress bar
 #'
 #' @return Data frame with columns `x` and `y`, and `n` rows.
 #' @export
@@ -26,20 +27,22 @@ strange_attractor <- function(a, n, x0 = 1, y0 = 1, progress = (n >= 1e6)){
 }
 
 
-
+#' @importFrom stats runif rnorm
 fast_forward_seed <- function(i, seed = 1){
   set.seed(seed)
-  for (i in seq_len(i)){
-    rnorm(14, sd = 1)
-    }
+  runif(2 * 14 * (i - 1))
   invisible(NULL)
 }
 
 #' Generate attractor from specific seed value
 #'
+#' @inheritParams strange_attractor
+#' @param i "Index value" to retrieve
+#' @param seed Original seed value, passed to [set.seed()]
+#'
 #' @export
-seeded_attractor <- function(i, n_points = 1e5, seed = 1){
+seeded_attractor <- function(i, n = 1e5, seed = 1){
   fast_forward_seed(i, seed)
   a <- rnorm(14, sd = 1)
-  strange_attractor(a, n = n_points)
+  strange_attractor(a, n = n)
 }

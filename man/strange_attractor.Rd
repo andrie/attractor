@@ -4,7 +4,7 @@
 \alias{strange_attractor}
 \title{Generate strange attractor.}
 \usage{
-strange_attractor(a, n, x0 = 1, y0 = 1, progress = n > 1e+06)
+strange_attractor(a, n, x0 = 1, y0 = 1, progress = (n >= 1e+06))
 }
 \arguments{
 \item{a}{Numeric vector of length 14}
@@ -14,6 +14,8 @@ strange_attractor(a, n, x0 = 1, y0 = 1, progress = n > 1e+06)
 \item{x0}{Initial value for x}
 
 \item{y0}{Initial value for y}
+
+\item{progress}{If TRUE, displays a progress bar}
 }
 \value{
 Data frame with columns \code{x} and \code{y}, and \code{n} rows.

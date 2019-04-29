@@ -34,9 +34,9 @@ invert <- function(x) {
 #' @return Matrix
 #' @export
 #' @importFrom scales col_numeric
-#' @importFrom grDevices as.raster
+#' @importFrom grDevices col2rgb as.raster rgb
 recolour <- function(x, palette = "Blues", zero_colour = NA, invert = FALSE){
-  zero_colour <- do.call(rgb, as.list(col2rgb(zero_colour)/255))
+  zero_colour <- do.call(rgb, as.list(col2rgb(zero_colour) / 255))
   dims <- dim(x)
   if (!missing(zero_colour) && !is.na(zero_colour) && !is.null(zero_colour)) {
     x[x == 0] <- NA
