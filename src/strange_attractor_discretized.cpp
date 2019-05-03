@@ -1,4 +1,6 @@
 #include <Rcpp.h>
+// isinf() is in math.h
+#include <math.h>
 using namespace Rcpp;
 
 // forward declarations
@@ -85,14 +87,14 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
 
    // Find quantiles
 
-   NumericVector qs = NumericVector::create(0.02, 0.98);
+   NumericVector qs = NumericVector::create(0.05, 0.95);
 
 
 
    // Do initial discretization
 
-   NumericVector x_range;
-   NumericVector y_range;
+   NumericVector x_range(2);
+   NumericVector y_range(2);
    x_range = quantile_cpp(x, qs);
    y_range = quantile_cpp(y, qs);
 
@@ -143,6 +145,8 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
      x[i+1] = a1 + a2*x[i] +  a3*y[i] +  a4*pow(fabs(x[i]), a5)  +  a6*pow(fabs(y[i]),  a7);
      y[i+1] = a8 + a9*x[i] + a10*y[i] + a11*pow(fabs(x[i]), a12) + a13*pow(fabs(y[i]), a14);
 
+     // if (isinf(x[i+1]) || isinf(y[i+1])) return z;
+
      xx = round(scale_01(x[i+1], x_range[0], x_range[1]) * (rows - 1));
      yy = round(scale_01(y[i+1], y_range[0], y_range[1]) * (cols - 1));
 
@@ -150,9 +154,9 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
      // Rcout << xx << std::endl;
      // Rcout << xx << std::endl;
 
-     if ( (xx < rows) & (yy < cols) & (xx >= 0) & ( yy >= 0) ) z(xx, yy) += 1;
-     x[0] = x[i+1];
-     y[0] = y[i+1];
+     if ( (xx < rows) && (yy < cols) && (xx >= 0) && ( yy >= 0) ) z(xx, yy) += 1;
+     x[i] = x[i+1];
+     y[i] = y[i+1];
 
    }
 
