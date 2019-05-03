@@ -5,12 +5,6 @@ using namespace Rcpp;
 #include <progress.hpp>
 #include <progress_bar.hpp>
 
-// Compute quantiles
-NumericVector quantile(NumericVector x, NumericVector q) {
-  std::sort(x.begin(), x.end());
-  return x[x.size() * q];
-}
-
 // [[Rcpp::export]]
 List strange_attractor_cpp(NumericVector a, int n, double x0, double y0, bool display_progress=true) {
   double a1 = a[0];

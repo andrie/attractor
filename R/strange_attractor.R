@@ -26,6 +26,34 @@ strange_attractor <- function(a, n, x0 = 1, y0 = 1, progress = (n >= 1e6)){
   z
 }
 
+strange_attractor_discretized <- function(a, n, x0 = 1, y0 = 1,
+                                          dims = c(600, 600),
+                                          progress = (n >= 1e5), n_discretize = 1e6){
+  assertthat::assert_that(is.vector(a))
+  assertthat::assert_that(all(is.numeric(a)))
+  assertthat::assert_that(length(a) == 14)
+  assertthat::assert_that(is.numeric(n))
+  assertthat::assert_that(length(n) == 1)
+  assertthat::assert_that(n > 0)
+  assertthat::assert_that(is.numeric(x0))
+  assertthat::assert_that(length(x0) == 1)
+  assertthat::assert_that(is.numeric(y0))
+  assertthat::assert_that(length(y0) == 1)
+  assertthat::assert_that(is.numeric(n_discretize))
+  assertthat::assert_that(length(n_discretize) == 1)
+
+
+  assertthat::assert_that(is.numeric(dims))
+  assertthat::assert_that(length(dims) == 2)
+
+  z <- strange_attractor_discretized_cpp(a, n, x0, y0, dims = dims,
+                                         display_progress = progress,
+                                         n_discretize = n_discretize)
+  # class(z) <- c("attractor", "matrix")
+  z
+}
+
+
 
 #' @importFrom stats runif rnorm
 fast_forward_seed <- function(i, seed = 1){
