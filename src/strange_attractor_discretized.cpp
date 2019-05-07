@@ -33,7 +33,7 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
 
   int nd;
   nd = n_discretize;
-  if (n < nd) nd = n;
+  if (n <= nd) nd = n;
 
   double a1 = a[0];
   double a2 = a[1];
@@ -145,16 +145,15 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
      x[i+1] = a1 + a2*x[i] +  a3*y[i] +  a4*pow(fabs(x[i]), a5)  +  a6*pow(fabs(y[i]),  a7);
      y[i+1] = a8 + a9*x[i] + a10*y[i] + a11*pow(fabs(x[i]), a12) + a13*pow(fabs(y[i]), a14);
 
-     // if (isinf(x[i+1]) || isinf(y[i+1])) return z;
 
-     xx = round(scale_01(x[i+1], x_range[0], x_range[1]) * (rows - 1));
-     yy = round(scale_01(y[i+1], y_range[0], y_range[1]) * (cols - 1));
+     if ( (x[i+1] < x_range[1]) && (y[i+1] < y_range[1]) && (x[i+1] >= x_range[0]) && ( y[i+1] >= y_range[0]) ) {
 
-     // Rcout << j << std::endl;
-     // Rcout << xx << std::endl;
-     // Rcout << xx << std::endl;
+       xx = round(scale_01(x[i+1], x_range[0], x_range[1]) * (rows - 1));
+       yy = round(scale_01(y[i+1], y_range[0], y_range[1]) * (cols - 1));
 
-     if ( (xx < rows) && (yy < cols) && (xx >= 0) && ( yy >= 0) ) z(xx, yy) += 1;
+       z(xx, yy) += 1;
+     }
+
      x[i] = x[i+1];
      y[i] = y[i+1];
 

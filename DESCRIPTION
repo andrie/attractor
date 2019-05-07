@@ -27,4 +27,4 @@ LinkingTo:
     RcppProgress
 Suggests: 
     rmarkdown,
-    testthat
+    testthat (>= 2.1.0)

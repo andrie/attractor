@@ -1,4 +1,4 @@
-context("test-strange_attractor")
+context("strange_attractor")
 
 test_that("strange attractor generates a data frame", {
   n <- 1e3
