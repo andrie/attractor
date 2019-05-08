@@ -20,7 +20,11 @@ library(attractor)
 
 
 ```{r}
-library(purrr)
-list.files("showcase", pattern = ".png", full.names = TRUE) %>% 
-  knitr::include_graphics(.)
+knitr::include_graphics("showcase/a000429_1e9_small.png")
+```
+```{r}
+knitr::include_graphics("showcase/a006846_1e9_small.png")
+```
+```{r}
+knitr::include_graphics("showcase/a033106_1e9_small.png")
 ```

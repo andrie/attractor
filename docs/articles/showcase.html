@@ -61,7 +61,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/andrie/attractor">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -76,7 +83,7 @@
       <h1>A showcase of some attractors</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/andrie/attractor/blob/master/vignettes/showcase.Rmd"><code>vignettes/showcase.Rmd</code></a></small>
       <div class="hidden name"><code>showcase.Rmd</code></div>
 
     </div>
@@ -84,10 +91,12 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(attractor)</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(purrr)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="st">"showcase"</span>, <span class="dt">pattern =</span> <span class="st">".png"</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="st">  </span>knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/include_graphics">include_graphics</a></span>(.)</a></code></pre></div>
-<p><img src="showcase/a000429_1e9_small.png" width="324"><img src="showcase/a006846_1e9_small.png" width="324"><img src="showcase/a033106_1e9_small.png" width="324"></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/include_graphics">include_graphics</a></span>(<span class="st">"showcase/a000429_1e9_small.png"</span>)</a></code></pre></div>
+<p><img src="showcase/a000429_1e9_small.png" width="324"></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/include_graphics">include_graphics</a></span>(<span class="st">"showcase/a006846_1e9_small.png"</span>)</a></code></pre></div>
+<p><img src="showcase/a006846_1e9_small.png" width="324"></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/include_graphics">include_graphics</a></span>(<span class="st">"showcase/a033106_1e9_small.png"</span>)</a></code></pre></div>
+<p><img src="showcase/a033106_1e9_small.png" width="324"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
