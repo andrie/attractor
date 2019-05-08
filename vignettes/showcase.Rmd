@@ -20,5 +20,11 @@ library(attractor)
 
 
 ![](showcase/a000429_1e9_small.png)
+
+<br/>
+
 ![](showcase/a006846_1e9_small.png)
+
+<br/>
+
 ![](showcase/a033106_1e9_small.png)
