@@ -1,0 +1,26 @@
+---
+title: "A showcase of some attractors"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{showcase}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(attractor)
+```
+
+
+```{r}
+library(purrr)
+list.files("showcase", pattern = ".png", full.names = TRUE) %>% 
+  knitr::include_graphics(.)
+```

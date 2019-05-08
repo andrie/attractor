@@ -66,7 +66,7 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
   const int increment_every = 1e5;
   Progress p(ceil(n / increment_every), display_progress);
 
-   // Do the first 100e3 elements
+   // Do the first n_discretize elements
 
    int i;
    for(i = 0; i < nd - 1; ++i) {
@@ -89,8 +89,6 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
 
    NumericVector qs = NumericVector::create(0.05, 0.95);
 
-
-
    // Do initial discretization
 
    NumericVector x_range(2);
@@ -98,20 +96,15 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
    x_range = quantile_cpp(x, qs);
    y_range = quantile_cpp(y, qs);
 
-   // Rcout << x_range << std::endl;
-   // Rcout << y_range << std::endl;
-
-   // Subset x
+   // Subset x and y to include only the range inside the quantiles
 
    LogicalVector index;
 
    index = (x >= x_range[0]) & (x <= x_range[1]);
-
    x = x[index];
    y = y[index];
 
    index = (y >= y_range[0]) & (y <= y_range[1]);
-
    x = x[index];
    y = y[index];
 
@@ -122,13 +115,12 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
 
    // Do the remaining elements
 
-   x[0] = x[i];
-   y[0] = y[i];
+   x[0] = x[i+1];
+   y[0] = y[i+1];
    i = 0;
 
    int xx;
    int yy;
-
 
    for(int j = nd; j < n - 1; ++j) {
 
@@ -141,16 +133,13 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
        p.increment();
      }
 
-
      x[i+1] = a1 + a2*x[i] +  a3*y[i] +  a4*pow(fabs(x[i]), a5)  +  a6*pow(fabs(y[i]),  a7);
      y[i+1] = a8 + a9*x[i] + a10*y[i] + a11*pow(fabs(x[i]), a12) + a13*pow(fabs(y[i]), a14);
 
-
-     if ( (x[i+1] < x_range[1]) && (y[i+1] < y_range[1]) && (x[i+1] >= x_range[0]) && ( y[i+1] >= y_range[0]) ) {
-
+     if ( (x[i+1] >= x_range[0]) && (x[i+1] <= x_range[1]) &&
+          (y[i+1] >= y_range[0]) && (y[i+1] <= y_range[1])) {
        xx = round(scale_01(x[i+1], x_range[0], x_range[1]) * (rows - 1));
        yy = round(scale_01(y[i+1], y_range[0], y_range[1]) * (cols - 1));
-
        z(xx, yy) += 1;
      }
 
