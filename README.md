@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# attractor
+# attractor <img src="man/figures/attractor-logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 
@@ -34,11 +34,14 @@ matrix with dimensions `600 x 900`:
 library(magrittr)
 library(attractor)
 
+attractor:::fast_forward_seed(21031)
+a <- rnorm(14)
+
 dat <- 
-  c(-0.8, 0.4, -1.1, 0.5, -0.6, -0.1, -0.5, 0.8, 1.0, -0.3, -0.6, -0.3, -1.2, -0.3) %>% 
+  a %>% 
   strange_attractor(1e6)
 str(dat)
-#>  num [1:600, 1:600] 0 0 0 0 0 0 1 2 1 1 ...
+#>  num [1:600, 1:600] 0 0 0 0 0 0 0 0 0 0 ...
 ```
 
 ## Plotting a strange attractor
@@ -108,7 +111,7 @@ Try the `Spectral` palette:
 ``` r
 dat %>% 
   log1p() %>%
-  recolour("Spectral", zero_colour = "#F60006") %>%
+  recolour("Spectral", zero_colour = "#9E0142") %>%
   plot()
 ```
 
@@ -119,7 +122,7 @@ With inversion:
 ``` r
 dat %>% 
   log1p() %>%
-  recolour("Spectral", invert = TRUE, zero_colour = "#6272A7") %>%
+  recolour("Spectral", invert = TRUE, zero_colour = "#5E4FA2") %>%
   plot()
 ```
 
