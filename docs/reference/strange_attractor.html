@@ -125,7 +125,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>strange_attractor</span>(<span class='no'>a</span>, <span class='no'>n</span>, <span class='kw'>x0</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y0</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>progress</span> <span class='kw'>=</span> (<span class='no'>n</span> <span class='kw'>&gt;=</span> <span class='fl'>1e+06</span>))</pre>
+    <pre class="usage"><span class='fu'>strange_attractor</span>(<span class='no'>a</span>, <span class='no'>n</span>, <span class='kw'>x0</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y0</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dims</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>600</span>, <span class='fl'>600</span>),
+  <span class='kw'>progress</span> <span class='kw'>=</span> (<span class='no'>n</span> <span class='kw'>&gt;=</span> <span class='fl'>1e+05</span>), <span class='kw'>n_discretize</span> <span class='kw'>=</span> <span class='fl'>1e+06</span>, <span class='kw'>qs</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>discretize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,11 +152,15 @@
       <th>progress</th>
       <td><p>If TRUE, displays a progress bar</p></td>
     </tr>
+    <tr>
+      <th>discretize</th>
+      <td><p>If <code>TRUE</code> discretizes to a matrix with dimensions <code>dims</code> else a data frame</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Data frame with columns <code>x</code> and <code>y</code>, and <code>n</code> rows.</p>
+    <p>if <code>discretize == TRUE</code> a matrix with dimensions <code>dims</code>, else a data frame with columns <code>x</code> and <code>y</code>, and <code>n</code> rows.</p>
     
 
   </div>

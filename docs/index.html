@@ -89,7 +89,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="attractor" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#attractor" class="anchor"></a>attractor</h1></div>
+<a href="#attractor" class="anchor"></a>attractor <img src="reference/figures/attractor-logo.png" align="right" width="120">
+</h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
 <p>The goal of <code>attractor</code> is to generate and plot strange attractors.</p>
@@ -112,20 +113,24 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(magrittr)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(attractor)</a>
 <a class="sourceLine" id="cb2-3" title="3"></a>
-<a class="sourceLine" id="cb2-4" title="4">dat &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="fl">-1.1</span>, <span class="fl">0.5</span>, <span class="fl">-0.6</span>, <span class="fl">-0.1</span>, <span class="fl">-0.5</span>, <span class="fl">0.8</span>, <span class="fl">1.0</span>, <span class="fl">-0.3</span>, <span class="fl">-0.6</span>, <span class="fl">-0.3</span>, <span class="fl">-1.2</span>, <span class="fl">-0.3</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="st">  </span><span class="kw"><a href="reference/strange_attractor.html">strange_attractor</a></span>(<span class="fl">1e7</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="st">  </span><span class="kw"><a href="reference/trim_quantiles.html">trim_quantiles</a></span>(<span class="dt">q =</span> <span class="fl">0.03</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="st">  </span><span class="kw"><a href="reference/discretize.html">discretize</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">600</span>, <span class="dv">900</span>))</a>
-<a class="sourceLine" id="cb2-9" title="9"></a>
+<a class="sourceLine" id="cb2-4" title="4">attractor<span class="op">:::</span><span class="kw">fast_forward_seed</span>(<span class="dv">21031</span>)</a>
+<a class="sourceLine" id="cb2-5" title="5">a &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">14</span>)</a>
+<a class="sourceLine" id="cb2-6" title="6"></a>
+<a class="sourceLine" id="cb2-7" title="7">dat &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="st">  </span>a <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="st">  </span><span class="kw"><a href="reference/strange_attractor.html">strange_attractor</a></span>(<span class="fl">1e6</span>)</a>
 <a class="sourceLine" id="cb2-10" title="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(dat)</a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt;  num [1:600, 1:900] 0 1 1 0 1 0 0 0 2 1 ...</span></a></code></pre></div>
-<p>Plot</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">dat <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log1p</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw"><a href="reference/recolour.html">recolour</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>()</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt;  num [1:600, 1:600] 0 0 0 0 0 0 0 0 0 0 ...</span></a></code></pre></div>
+</div>
+<div id="plotting-a-strange-attractor" class="section level2">
+<h2 class="hasAnchor">
+<a href="#plotting-a-strange-attractor" class="anchor"></a>Plotting a strange attractor</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/par">par</a></span>(<span class="dt">mar =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="dv">0</span>, <span class="dv">4</span>), <span class="dt">mai =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="dv">0</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb3-2" title="2">dat <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log1p</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="st">  </span><span class="kw"><a href="reference/recolour.html">recolour</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>()</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="700"></p>
 </div>
 <div id="recolour-the-plot" class="section level2">
 <h2 class="hasAnchor">
@@ -142,31 +147,31 @@
 <a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log1p</a></span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw"><a href="reference/recolour.html">recolour</a></span>(<span class="st">"Oranges"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>()</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="700"></p>
 <p>To change the background colour, specify a <code>zero_colour</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">dat <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log1p</a></span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-3" title="3"><span class="st">  </span><span class="kw"><a href="reference/recolour.html">recolour</a></span>(<span class="st">"Oranges"</span>, <span class="dt">zero_colour =</span> <span class="st">"#FFFAF6"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-4" title="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>()</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="700"></p>
 <p>You can also invert the palette</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">dat <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log1p</a></span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw"><a href="reference/recolour.html">recolour</a></span>(<span class="st">"Oranges"</span>, <span class="dt">zero_colour =</span> <span class="st">"grey20"</span>, <span class="dt">invert =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>()</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="700"></p>
 <p>Try the <code>Spectral</code> palette:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">dat <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log1p</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="st">  </span><span class="kw"><a href="reference/recolour.html">recolour</a></span>(<span class="st">"Spectral"</span>, <span class="dt">zero_colour =</span> <span class="st">"#F60006"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="st">  </span><span class="kw"><a href="reference/recolour.html">recolour</a></span>(<span class="st">"Spectral"</span>, <span class="dt">zero_colour =</span> <span class="st">"#9E0142"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb7-4" title="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>()</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="700"></p>
 <p>With inversion:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">dat <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log1p</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="reference/recolour.html">recolour</a></span>(<span class="st">"Spectral"</span>, <span class="dt">invert =</span> <span class="ot">TRUE</span>, <span class="dt">zero_colour =</span> <span class="st">"#6272A7"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="reference/recolour.html">recolour</a></span>(<span class="st">"Spectral"</span>, <span class="dt">invert =</span> <span class="ot">TRUE</span>, <span class="dt">zero_colour =</span> <span class="st">"#5E4FA2"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>()</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="700"></p>
 </div>
 </div>
   </div>
