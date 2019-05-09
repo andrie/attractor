@@ -5,35 +5,20 @@
 #' @param x0 Initial value for x
 #' @param y0 Initial value for y
 #' @param progress If TRUE, displays a progress bar
+#' @param discretize If `TRUE` discretizes to a matrix with dimensions `dims` else a data frame
 #'
-#' @return Data frame with columns `x` and `y`, and `n` rows.
-#' @export
-#'
-strange_attractor <- function(a, n, x0 = 1, y0 = 1, progress = (n >= 1e6)){
-  assert_that(is.vector(a))
-  assert_that(all(is.numeric(a)))
-  assert_that(length(a) == 14)
-  assert_that(is.numeric(n))
-  assert_that(length(n) == 1)
-  assert_that(n > 0)
-  assert_that(is.numeric(x0))
-  assert_that(length(x0) == 1)
-  assert_that(is.numeric(y0))
-  assert_that(length(y0) == 1)
-
-  z <- strange_attractor_cpp(a, n, x0, y0, display_progress = progress)
-  class(z) <- c("attractor", "data.frame")
-  z
-}
-
-#' Generate strange attractor.
-#'
-#' @inherit strange_attractor
-#' @export
+#' @return if `discretize == TRUE` a matrix with dimensions `dims`, else a data frame with columns `x` and `y`, and `n` rows.
 #' @importFrom assertthat assert_that
-strange_attractor_discretized <- function(a, n, x0 = 1, y0 = 1,
-                                          dims = c(600, 600),
-                                          progress = (n >= 1e5), n_discretize = 1e6){
+#' @export
+#'
+strange_attractor <- function(
+  a, n, x0 = 1, y0 = 1,
+  dims = c(600, 600),
+  progress = (n >= 1e5),
+  n_discretize = 1e6,
+  qs = 0.05,
+  discretize = TRUE)
+{
   assert_that(is.vector(a))
   assert_that(is.numeric(a))
   assert_that(length(a) == 14)
@@ -46,15 +31,34 @@ strange_attractor_discretized <- function(a, n, x0 = 1, y0 = 1,
   assert_that(length(y0) == 1)
   assert_that(is.numeric(n_discretize))
   assert_that(length(n_discretize) == 1)
+  assert_that(is.numeric(qs))
+  assert_that(length(qs) %in% c(1, 2, 4))
+  assert_that(all(qs >= 0))
+  assert_that(all(qs <= 1))
 
 
   assert_that(is.numeric(dims))
   assert_that(length(dims) == 2)
 
-  z <- strange_attractor_discretized_cpp(a, n = n,
-                                         x0, y0, dims = dims,
-                                         display_progress = progress,
-                                         n_discretize = n_discretize)
+  if (length(qs) == 1) qs <- c(qs, 1 - qs, qs, 1 - qs)
+  if (length(qs) == 2) qs <- c(qs[1], 1 - qs[1], 1 - qs[2], qs[2])
+  # browser()
+
+  if (discretize) {
+    z <- strange_attractor_discretized_cpp(
+      a, n = n,
+      x0, y0,
+      dims = dims,
+      qs = qs,
+      display_progress = progress,
+      n_discretize = n_discretize
+    )
+  } else {
+    z <- strange_attractor_cpp(
+      a, n, x0, y0, display_progress = progress
+    )
+    class(z) <- c("attractor", "data.frame")
+  }
   z
 }
 

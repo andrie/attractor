@@ -17,7 +17,7 @@ quantile_cpp <- function(x, q) {
     .Call(`_attractor_quantile_cpp`, x, q)
 }
 
-strange_attractor_discretized_cpp <- function(a, n, x0, y0, dims, display_progress = TRUE, n_discretize = 1e5L) {
-    .Call(`_attractor_strange_attractor_discretized_cpp`, a, n, x0, y0, dims, display_progress, n_discretize)
+strange_attractor_discretized_cpp <- function(a, n, x0, y0, dims, qs, display_progress = TRUE, n_discretize = 1e5L) {
+    .Call(`_attractor_strange_attractor_discretized_cpp`, a, n, x0, y0, dims, qs, display_progress, n_discretize)
 }
 

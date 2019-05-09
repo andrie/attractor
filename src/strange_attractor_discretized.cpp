@@ -25,11 +25,14 @@ NumericVector quantile_cpp(NumericVector x, NumericVector q) {
 
 
 // [[Rcpp::export]]
-NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
-                                       double x0, double y0,
-                                       NumericVector dims,
-                                       bool display_progress=true,
-                                       int n_discretize = 1e5) {
+NumericMatrix strange_attractor_discretized_cpp(
+    const NumericVector& a, const int& n,
+    const double& x0, const double& y0,
+    const NumericVector& dims,
+    const NumericVector& qs,
+    const bool display_progress=true,
+    const int n_discretize = 1e5
+) {
 
   int nd;
   nd = n_discretize;
@@ -59,7 +62,14 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
   int rows = dims[0];
   int cols = dims[1];
   NumericMatrix z(rows, cols);
-  // std::fill(z.begin(), z.end(), 0);
+
+  // Declare variables for computing range
+
+   NumericVector qy = NumericVector::create(qs(0), qs(1));
+   NumericVector qx = NumericVector::create(qs(2), qs(3));
+
+   NumericVector x_range(2);
+   NumericVector y_range(2);
 
 
    // Initialize progress bar
@@ -85,16 +95,19 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
      y[i+1] = a8 + a9*x[i] + a10*y[i] + a11*pow(fabs(x[i]), a12) + a13*pow(fabs(y[i]), a14);
    }
 
+   double last_x = x[i+1];
+   double last_y = x[i+1];
+
+
    // Find quantiles
 
-   NumericVector qs = NumericVector::create(0.05, 0.95);
 
    // Do initial discretization
 
-   NumericVector x_range(2);
-   NumericVector y_range(2);
-   x_range = quantile_cpp(x, qs);
-   y_range = quantile_cpp(y, qs);
+
+
+   x_range = quantile_cpp(x, qx);
+   y_range = quantile_cpp(y, qy);
 
    // Subset x and y to include only the range inside the quantiles
 
@@ -108,6 +121,12 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
    x = x[index];
    y = y[index];
 
+   // Rcout << "x.size = " << x.size() << std::endl;
+
+   if (x.size() == 0) return (-1);
+
+   // Rcout << "Starting to discretize vectors" << std::endl;
+
    z = discretize_vectors_cpp(x, y, dims, x_range, y_range);
 
    if (n <= nd) return(z);
@@ -115,8 +134,8 @@ NumericMatrix strange_attractor_discretized_cpp(NumericVector a, int n,
 
    // Do the remaining elements
 
-   x[0] = x[i+1];
-   y[0] = y[i+1];
+   x[0] = last_x;
+   y[0] = last_y;
    i = 0;
 
    int xx;

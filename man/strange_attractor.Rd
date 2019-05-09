@@ -4,7 +4,9 @@
 \alias{strange_attractor}
 \title{Generate strange attractor.}
 \usage{
-strange_attractor(a, n, x0 = 1, y0 = 1, progress = (n >= 1e+06))
+strange_attractor(a, n, x0 = 1, y0 = 1, dims = c(600, 600),
+  progress = (n >= 1e+05), n_discretize = 1e+06, qs = 0.05,
+  discretize = TRUE)
 }
 \arguments{
 \item{a}{Numeric vector of length 14}
@@ -16,9 +18,11 @@ strange_attractor(a, n, x0 = 1, y0 = 1, progress = (n >= 1e+06))
 \item{y0}{Initial value for y}
 
 \item{progress}{If TRUE, displays a progress bar}
+
+\item{discretize}{If \code{TRUE} discretizes to a matrix with dimensions \code{dims} else a data frame}
 }
 \value{
-Data frame with columns \code{x} and \code{y}, and \code{n} rows.
+if \code{discretize == TRUE} a matrix with dimensions \code{dims}, else a data frame with columns \code{x} and \code{y}, and \code{n} rows.
 }
 \description{
 Generate strange attractor.

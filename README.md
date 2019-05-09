@@ -36,24 +36,22 @@ library(attractor)
 
 dat <- 
   c(-0.8, 0.4, -1.1, 0.5, -0.6, -0.1, -0.5, 0.8, 1.0, -0.3, -0.6, -0.3, -1.2, -0.3) %>% 
-  strange_attractor(1e7) %>% 
-  trim_quantiles(q = 0.03) %>% 
-  discretize(c(600, 900))
-
+  strange_attractor(1e6)
 str(dat)
-#>  num [1:600, 1:900] 0 1 1 1 1 0 0 0 2 1 ...
+#>  num [1:600, 1:600] 0 0 0 0 0 0 1 2 1 1 ...
 ```
 
-Plot
+## Plotting a strange attractor
 
 ``` r
+par(mar = rep(0, 4), mai = rep(0, 4))
 dat %>% 
   log1p() %>%
   recolour() %>% 
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
 ## Recolour the plot
 
@@ -81,7 +79,7 @@ dat %>%
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
 To change the background colour, specify a `zero_colour`:
 
@@ -92,7 +90,7 @@ dat %>%
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
 You can also invert the palette
 
@@ -103,7 +101,7 @@ dat %>%
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
 Try the `Spectral` palette:
 
@@ -114,7 +112,7 @@ dat %>%
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 With inversion:
 
@@ -125,4 +123,4 @@ dat %>%
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->

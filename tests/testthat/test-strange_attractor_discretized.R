@@ -6,13 +6,13 @@ test_that("multiplication works", {
 
   z1 <-
     a %>%
-    strange_attractor(n) %>%
+    strange_attractor(n, discretize = FALSE) %>%
     trim_quantiles(q = 0.05) %>%
     discretize(dims)
 
   z2 <-
     a %>%
-    strange_attractor_discretized(n, dims = dims, n_discretize = 1e6)
+    strange_attractor(n, dims = dims, n_discretize = 1e6)
 
   expect_true(
     all.equal(z1, z2, tolerance = 1e-2)
