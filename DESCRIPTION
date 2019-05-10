@@ -1,16 +1,17 @@
 Package: attractor
 Title: Create and Plot Strange Attractors
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "Andrie",
-           family = "de Vries",
+Authors@R:
+    c(person(given = "Andrie", family = "de Vries",
            role = c("aut", "cre"),
-           email = "apdevries@gmail.com"
-           )
+           email = "apdevries@gmail.com"),
+    person(given = "Antonio", family = "Sánchez",
+           role = c("ctb"),
+           email = "aschinchon@gmail.com"))
 Description: Create and Plot Strange Attractors.  The package is fast, because 
     the attractor algorithm uses `Rcpp` for speed. In addition, the resulting 
     attractor is discretized (binned) into a much smaller matrix, making plotting 
-    very fast.
+    also very fast.
 License: MIT + file LICENSE
 URL: https://github.com/andrie/attractor
 VignetteBuilder: rmarkdown

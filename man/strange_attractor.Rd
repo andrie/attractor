@@ -25,5 +25,13 @@ strange_attractor(a, n, x0 = 1, y0 = 1, dims = c(600, 600),
 if \code{discretize == TRUE} a matrix with dimensions \code{dims}, else a data frame with columns \code{x} and \code{y}, and \code{n} rows.
 }
 \description{
-Generate strange attractor.
+Based on Equation 7E of Sprott.
+}
+\details{
+\deqn{x_{i+1} = a_{1} + a_{2} * x_{i} +  a_{3} * y_{i} +  a_{4} * |x_{i}|^{a5}  +  a6 * |y_{i}|^{a7}}
+
+\deqn{y_{i+1} = a_{8} + a_{9} * x_{i} +  a_{10} * y_{i} +  a_{11} * |x_{i}|^{a12}  +  a13 * |y_{i}|^{a14}}
+}
+\references{
+Julien C. Sprott, "Strange Attractors: Creating Patterns in Chaos", page 418, Equation 7e, http://sprott.physics.wisc.edu/fractals/booktext/sabook.pdf
 }

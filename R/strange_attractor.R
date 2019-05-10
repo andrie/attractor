@@ -1,5 +1,11 @@
 #' Generate strange attractor.
 #'
+#' Based on Equation 7E of Sprott.
+#'
+#' \deqn{x_{i+1} = a_{1} + a_{2} * x_{i} +  a_{3} * y_{i} +  a_{4} * |x_{i}|^{a5}  +  a6 * |y_{i}|^{a7}}
+#'
+#' \deqn{y_{i+1} = a_{8} + a_{9} * x_{i} +  a_{10} * y_{i} +  a_{11} * |x_{i}|^{a12}  +  a13 * |y_{i}|^{a14}}
+#'
 #' @param a Numeric vector of length 14
 #' @param n Number of points to generate
 #' @param x0 Initial value for x
@@ -9,6 +15,7 @@
 #'
 #' @return if `discretize == TRUE` a matrix with dimensions `dims`, else a data frame with columns `x` and `y`, and `n` rows.
 #' @importFrom assertthat assert_that
+#' @references Julien C. Sprott, "Strange Attractors: Creating Patterns in Chaos", page 418, Equation 7e, http://sprott.physics.wisc.edu/fractals/booktext/sabook.pdf
 #' @export
 #'
 strange_attractor <- function(

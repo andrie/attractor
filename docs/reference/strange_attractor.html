@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Generate strange attractor. — strange_attractor" />
 
-<meta property="og:description" content="Generate strange attractor." />
+<meta property="og:description" content="Based on Equation 7E of Sprott." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -121,7 +121,7 @@
 
     <div class="ref-description">
     
-    <p>Generate strange attractor.</p>
+    <p>Based on Equation 7E of Sprott.</p>
     
     </div>
 
@@ -162,6 +162,15 @@
 
     <p>if <code>discretize == TRUE</code> a matrix with dimensions <code>dims</code>, else a data frame with columns <code>x</code> and <code>y</code>, and <code>n</code> rows.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>$$x_{i+1} = a_{1} + a_{2} * x_{i} +  a_{3} * y_{i} +  a_{4} * |x_{i}|^{a5}  +  a6 * |y_{i}|^{a7}$$</p>
+<p>$$y_{i+1} = a_{8} + a_{9} * x_{i} +  a_{10} * y_{i} +  a_{11} * |x_{i}|^{a12}  +  a13 * |y_{i}|^{a14}$$</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Julien C. Sprott, "Strange Attractors: Creating Patterns in Chaos", page 418, Equation 7e, http://sprott.physics.wisc.edu/fractals/booktext/sabook.pdf</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -170,6 +179,10 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
           </ul>
 
   </div>
