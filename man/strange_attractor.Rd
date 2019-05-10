@@ -17,7 +17,13 @@ strange_attractor(a, n, x0 = 1, y0 = 1, dims = c(600, 600),
 
 \item{y0}{Initial value for y}
 
+\item{dims}{Dimensions of resulting matrix}
+
 \item{progress}{If TRUE, displays a progress bar}
+
+\item{n_discretize}{Number of values to generate before computing the range}
+
+\item{qs}{quantile cutoff}
 
 \item{discretize}{If \code{TRUE} discretizes to a matrix with dimensions \code{dims} else a data frame}
 }

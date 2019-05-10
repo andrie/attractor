@@ -10,6 +10,9 @@
 #' @param n Number of points to generate
 #' @param x0 Initial value for x
 #' @param y0 Initial value for y
+#' @param dims Dimensions of resulting matrix
+#' @param n_discretize Number of values to generate before computing the range
+#' @param qs quantile cutoff
 #' @param progress If TRUE, displays a progress bar
 #' @param discretize If `TRUE` discretizes to a matrix with dimensions `dims` else a data frame
 #'
