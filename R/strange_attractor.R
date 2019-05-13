@@ -1,11 +1,5 @@
 #' Generate strange attractor.
 #'
-#' Based on Equation 7E of Sprott.
-#'
-#' \deqn{x_{i+1} = a_{1} + a_{2} * x_{i} +  a_{3} * y_{i} +  a_{4} * |x_{i}|^{a5}  +  a6 * |y_{i}|^{a7}}
-#'
-#' \deqn{y_{i+1} = a_{8} + a_{9} * x_{i} +  a_{10} * y_{i} +  a_{11} * |x_{i}|^{a12}  +  a13 * |y_{i}|^{a14}}
-#'
 #' @param a Numeric vector of length 14
 #' @param n Number of points to generate
 #' @param x0 Initial value for x
@@ -18,17 +12,15 @@
 #'
 #' @return if `discretize == TRUE` a matrix with dimensions `dims`, else a data frame with columns `x` and `y`, and `n` rows.
 #' @importFrom assertthat assert_that
-#' @references Julien C. Sprott, "Strange Attractors: Creating Patterns in Chaos", page 418, Equation 7e, http://sprott.physics.wisc.edu/fractals/booktext/sabook.pdf
-#' @export
 #'
-strange_attractor <- function(
+attractor_generic <- function(
   a, n, x0 = 1, y0 = 1,
   dims = c(600, 600),
   progress = (n >= 1e5),
   n_discretize = 1e6,
-  qs = 0.05,
-  discretize = TRUE)
-{
+  qs = qs,
+  discretize = TRUE
+){
   assert_that(is.vector(a))
   assert_that(is.numeric(a))
   assert_that(length(a) == 14)
@@ -70,26 +62,68 @@ strange_attractor <- function(
     class(z) <- c("attractor", "data.frame")
   }
   z
+
 }
 
-
-
-#' @importFrom stats runif rnorm
-fast_forward_seed <- function(i, seed = 1){
-  set.seed(seed)
-  runif(2 * 14 * (i - 1))
-  invisible(NULL)
-}
-
-#' Generate attractor from specific seed value
+#' Generate strange attractor.
 #'
-#' @inheritParams strange_attractor
-#' @param i "Index value" to retrieve
+#' Based on Equation 7E of Sprott.
+#'
+#' \deqn{x_{i+1} = a_{1} + a_{2} * x_{i} +  a_{3} * y_{i} +  a_{4} * |x_{i}|^{a5}  +  a6 * |y_{i}|^{a7}}
+#'
+#' \deqn{y_{i+1} = a_{8} + a_{9} * x_{i} +  a_{10} * y_{i} +  a_{11} * |x_{i}|^{a12}  +  a13 * |y_{i}|^{a14}}
+#'
+#' @param a Numeric vector of length 14
+#' @param n Number of points to generate
+#' @param x0 Initial value for x
+#' @param y0 Initial value for y
+#' @param dims Dimensions of resulting matrix
+#' @param n_discretize Number of values to generate before computing the range
+#' @param qs quantile cutoff
+#' @param progress If TRUE, displays a progress bar
+#' @param discretize If `TRUE` discretizes to a matrix with dimensions `dims` else a data frame
+#'
+#' @return if `discretize == TRUE` a matrix with dimensions `dims`, else a data frame with columns `x` and `y`, and `n` rows.
+#' @importFrom assertthat assert_that
+#' @references Julien C. Sprott, "Strange Attractors: Creating Patterns in Chaos", page 418, Equation 7e, http://sprott.physics.wisc.edu/fractals/booktext/sabook.pdf
+#' @export
+#'
+attractor_sprott_7e <- function(
+  a, n, x0 = 1, y0 = 1,
+  dims = c(600, 600),
+  progress = (n >= 1e5),
+  n_discretize = 1e6,
+  qs = 0.05,
+  discretize = TRUE)
+{
+  assert_that(length(a) == 14)
+  attractor_generic(
+    a = a, n = n,
+    x0 = x0, y0 = y0,
+    dims = dims,
+    progress = progress,
+    n_discretize = n_discretize,
+    qs = qs,
+    discretize = discretize)
+}
+
+
+
+
+#' Generate attractor for the Sprott 7e attractor.
+#'
+#' @param fast_forward "Index value" to retrieve
 #' @param seed Original seed value, passed to [set.seed()]
 #'
 #' @export
-seeded_attractor <- function(i, n = 1e5, seed = 1){
-  fast_forward_seed(i, seed)
-  a <- rnorm(14, sd = 1)
-  strange_attractor(a, n = n)
+#' @importFrom stats runif rnorm
+seed_sprott_7e <- function(fast_forward, seed = if (!missing(fast_forward)) 1 else NA) {
+  length_a <- 14
+  if (!is.na(seed)) {
+    set.seed(seed)
+  }
+  if (!missing(fast_forward)) {
+    runif(2 * length_a * (fast_forward - 1))
+  }
+  rnorm(length_a, sd = 1)
 }

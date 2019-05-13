@@ -1,6 +1,7 @@
 Package: attractor
 Title: Create and Plot Strange Attractors
-Version: 0.0.0.9000
+Version: 0.0.1.9000
+Date: 2019-05-13
 Authors@R:
     c(person(given = "Andrie", family = "de Vries",
            role = c("aut", "cre"),

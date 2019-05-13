@@ -28,20 +28,20 @@ devtools::install_github("andrie/attractor")
 ## Example
 
 Create a strange attractor with 10 million points, then discretize to a
-matrix with dimensions `600 x 900`:
+matrix with dimensions `400 x 400`:
 
 ``` r
 library(magrittr)
 library(attractor)
 
-attractor:::fast_forward_seed(21031)
-a <- rnorm(14)
+a <- seed_sprott_7e(21031)
+#> setting seed
 
 dat <- 
   a %>% 
-  strange_attractor(1e6)
+  attractor_sprott_7e(1e6, dims = c(400, 400))
 str(dat)
-#>  num [1:600, 1:600] 0 0 0 0 0 0 0 0 0 0 ...
+#>  num [1:400, 1:400] 0 0 0 0 0 0 0 0 0 0 ...
 ```
 
 ## Plotting a strange attractor
@@ -53,7 +53,7 @@ dat %>%
   plot()
 ```
 
-![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+<img src="man/figures/README-unnamed-chunk-3-1.png" height="400px" />
 
 ## Recolour the plot
 
@@ -80,7 +80,7 @@ dat %>%
   plot()
 ```
 
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+<img src="man/figures/README-unnamed-chunk-4-1.png" height="400px" />
 
 To change the background colour, specify a `zero_colour`:
 
@@ -90,7 +90,7 @@ dat %>%
   plot()
 ```
 
-![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
+<img src="man/figures/README-unnamed-chunk-5-1.png" height="400px" />
 
 You can also invert the palette
 
@@ -100,7 +100,7 @@ dat %>%
   plot()
 ```
 
-![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
+<img src="man/figures/README-unnamed-chunk-6-1.png" height="400px" />
 
 Try the `Spectral` palette:
 
@@ -110,7 +110,7 @@ dat %>%
   plot()
 ```
 
-![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
+<img src="man/figures/README-unnamed-chunk-7-1.png" height="400px" />
 
 With inversion:
 
@@ -120,4 +120,4 @@ dat %>%
   plot()
 ```
 
-![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
+<img src="man/figures/README-unnamed-chunk-8-1.png" height="400px" />
