@@ -39,7 +39,6 @@ invert <- function(x) {
 recolour <- function(x, palette = "Blues", zero_colour = NA, invert = FALSE, trans = log1p){
   zero_colour <- do.call(rgb, as.list(col2rgb(zero_colour) / 255))
   if (!is.null(trans)) {
-    message("transforming")
     x <- match.fun(trans)(x)
   }
   dims <- dim(x)

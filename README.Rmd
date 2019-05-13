@@ -8,7 +8,8 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-"
+  fig.path = "man/figures/README-",
+  out.height="400px"
 )
 knitr::opts_knit$set(global.par = TRUE)
 par(mar = rep(0, 4), mai = rep(0, 4))
@@ -40,19 +41,18 @@ devtools::install_github("andrie/attractor")
 
 ## Example
 
-Create a strange attractor with 10 million points, then discretize to a matrix with dimensions `600 x 900`:
+Create a strange attractor with 10 million points, then discretize to a matrix with dimensions `400 x 400`:
 
 
 ```{r}
 library(magrittr)
 library(attractor)
 
-attractor:::fast_forward_seed(21031)
-a <- rnorm(14)
+a <- seed_sprott_7e(21031)
 
 dat <- 
   a %>% 
-  strange_attractor(1e6)
+  attractor_sprott_7e(1e6, dims = c(400, 400))
 str(dat)
 ```
 
