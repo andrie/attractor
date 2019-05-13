@@ -5,9 +5,11 @@
 \alias{recolor}
 \title{Use palette from ColorBrewer to recolour the image.}
 \usage{
-recolour(x, palette = "Blues", zero_colour = NA, invert = FALSE)
+recolour(x, palette = "Blues", zero_colour = NA, invert = FALSE,
+  trans = log1p)
 
-recolor(x, palette = "Blues", zero_colour = NA, invert = FALSE)
+recolor(x, palette = "Blues", zero_colour = NA, invert = FALSE,
+  trans = log1p)
 }
 \arguments{
 \item{x}{Matrix}
@@ -17,6 +19,8 @@ recolor(x, palette = "Blues", zero_colour = NA, invert = FALSE)
 \item{zero_colour}{Colour to use for zero and NA values}
 
 \item{invert}{If \code{TRUE}, inverts the colour scale}
+
+\item{trans}{Transformation function, defaulting to \code{\link[=log1p]{log1p()}}}
 }
 \value{
 Matrix

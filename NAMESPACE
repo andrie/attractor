@@ -2,7 +2,6 @@
 
 S3method(plot,attractor)
 export(discretize)
-export(flip_180)
 export(invert)
 export(recolor)
 export(recolour)

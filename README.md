@@ -49,7 +49,6 @@ str(dat)
 ``` r
 par(mar = rep(0, 4), mai = rep(0, 4))
 dat %>% 
-  log1p() %>%
   recolour() %>% 
   plot()
 ```
@@ -77,7 +76,6 @@ Use the `Oranges` palette:
 
 ``` r
 dat %>% 
-  log1p() %>%
   recolour("Oranges") %>%
   plot()
 ```
@@ -88,7 +86,6 @@ To change the background colour, specify a `zero_colour`:
 
 ``` r
 dat %>% 
-  log1p() %>%
   recolour("Oranges", zero_colour = "#FFFAF6") %>%
   plot()
 ```
@@ -99,7 +96,6 @@ You can also invert the palette
 
 ``` r
 dat %>% 
-  log1p() %>%
   recolour("Oranges", zero_colour = "grey20", invert = TRUE) %>%
   plot()
 ```
@@ -110,7 +106,6 @@ Try the `Spectral` palette:
 
 ``` r
 dat %>% 
-  log1p() %>%
   recolour("Spectral", zero_colour = "#9E0142") %>%
   plot()
 ```
@@ -121,7 +116,6 @@ With inversion:
 
 ``` r
 dat %>% 
-  log1p() %>%
   recolour("Spectral", invert = TRUE, zero_colour = "#5E4FA2") %>%
   plot()
 ```

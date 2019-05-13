@@ -3,7 +3,7 @@
 #' @param x Matrix
 #'
 #' @return Matrix
-#' @export
+# @export
 flip_180 <- function(x){
   x[rev(seq_len(nrow(x))), ]
 }
@@ -30,13 +30,18 @@ invert <- function(x) {
 #' @param palette ColorBrewer palette. This value is passed to [scales::col_numeric()]
 #' @param zero_colour Colour to use for zero and NA values
 #' @param invert If `TRUE`, inverts the colour scale
+#' @param trans Transformation function, defaulting to [log1p()]
 #'
 #' @return Matrix
 #' @export
 #' @importFrom scales col_numeric
 #' @importFrom grDevices col2rgb as.raster rgb
-recolour <- function(x, palette = "Blues", zero_colour = NA, invert = FALSE){
+recolour <- function(x, palette = "Blues", zero_colour = NA, invert = FALSE, trans = log1p){
   zero_colour <- do.call(rgb, as.list(col2rgb(zero_colour) / 255))
+  if (!is.null(trans)) {
+    message("transforming")
+    x <- match.fun(trans)(x)
+  }
   dims <- dim(x)
   if (!missing(zero_colour) && !is.na(zero_colour) && !is.null(zero_colour)) {
     x[x == 0] <- NA

@@ -125,9 +125,11 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>recolour</span>(<span class='no'>x</span>, <span class='kw'>palette</span> <span class='kw'>=</span> <span class='st'>"Blues"</span>, <span class='kw'>zero_colour</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>invert</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>recolour</span>(<span class='no'>x</span>, <span class='kw'>palette</span> <span class='kw'>=</span> <span class='st'>"Blues"</span>, <span class='kw'>zero_colour</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>invert</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>trans</span> <span class='kw'>=</span> <span class='no'>log1p</span>)
 
-<span class='fu'>recolor</span>(<span class='no'>x</span>, <span class='kw'>palette</span> <span class='kw'>=</span> <span class='st'>"Blues"</span>, <span class='kw'>zero_colour</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>invert</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>recolor</span>(<span class='no'>x</span>, <span class='kw'>palette</span> <span class='kw'>=</span> <span class='st'>"Blues"</span>, <span class='kw'>zero_colour</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>invert</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>trans</span> <span class='kw'>=</span> <span class='no'>log1p</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,6 +149,10 @@
     <tr>
       <th>invert</th>
       <td><p>If <code>TRUE</code>, inverts the colour scale</p></td>
+    </tr>
+    <tr>
+      <th>trans</th>
+      <td><p>Transformation function, defaulting to <code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log1p()</a></code></p></td>
     </tr>
     </table>
     

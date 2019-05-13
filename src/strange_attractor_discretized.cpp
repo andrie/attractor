@@ -2,19 +2,20 @@
 #include <math.h>  // isinf() is in math.h
 using namespace Rcpp;
 
-// forward declarations
+// forward declarations ---------------------------------------------------
 
 NumericMatrix discretize_vectors_cpp(NumericVector x, NumericVector y, NumericVector dims,
                                      NumericVector x_range, NumericVector y_range);
 
 double scale_01(double x, double min_x, double max_x);
 
+
 // [[Rcpp::depends(RcppProgress)]]
 #include <progress.hpp>
 #include <progress_bar.hpp>
 
 
-// Compute quantiles
+// Compute quantiles ------------------------------------------------------
 // [[Rcpp::export]]
 NumericVector quantile_cpp(NumericVector x, NumericVector q) {
   NumericVector y = clone(x);
@@ -23,6 +24,40 @@ NumericVector quantile_cpp(NumericVector x, NumericVector q) {
 }
 
 
+// Test for infinity or NA values in x and y ------------------------------
+bool is_inf_or_na(const double x, const double y) {
+   return
+   Rcpp::traits::is_infinite<REALSXP>(x) |
+      Rcpp::traits::is_infinite<REALSXP>(y) |
+      Rcpp::traits::is_nan<REALSXP>(x) |
+      Rcpp::traits::is_nan<REALSXP>(y);
+}
+
+// Sprott_7e --------------------------------------------------------------
+NumericVector sprott_7e(const NumericVector a, const double x0, const double y0){
+   double a1 = a[0];
+   double a2 = a[1];
+   double a3 = a[2];
+   double a4 = a[3];
+   double a5 = a[4];
+   double a6 = a[5];
+   double a7 = a[6];
+   double a8 = a[7];
+   double a9 = a[8];
+   double a10 = a[9];
+   double a11 = a[10];
+   double a12 = a[11];
+   double a13 = a[12];
+   double a14 = a[13];
+   double x = x0;
+   double y = y0;
+   NumericVector z(2);
+   z[0] = a1 + a2*x +  a3*y +  a4*pow(fabs(x), a5)  +  a6*pow(fabs(y),  a7);
+   z[1] = a8 + a9*x + a10*y + a11*pow(fabs(x), a12) + a13*pow(fabs(y), a14);
+   return z;
+}
+
+// strange_attractor_discretized ------------------------------------------
 // [[Rcpp::export]]
 NumericMatrix strange_attractor_discretized_cpp(
     const NumericVector& a, const int& n,
@@ -37,20 +72,6 @@ NumericMatrix strange_attractor_discretized_cpp(
   nd = n_discretize;
   if (n <= nd) nd = n;
 
-  double a1 = a[0];
-  double a2 = a[1];
-  double a3 = a[2];
-  double a4 = a[3];
-  double a5 = a[4];
-  double a6 = a[5];
-  double a7 = a[6];
-  double a8 = a[7];
-  double a9 = a[8];
-  double a10 = a[9];
-  double a11 = a[10];
-  double a12 = a[11];
-  double a13 = a[12];
-  double a14 = a[13];
 
   NumericVector x(nd);
   NumericVector y(nd);
@@ -78,6 +99,7 @@ NumericMatrix strange_attractor_discretized_cpp(
    // Do the first n_discretize elements
 
    bool encountered_infinity = false;
+   NumericVector sa(2);
 
    int i;
    for(i = 0; i < nd - 1; ++i) {
@@ -91,17 +113,12 @@ NumericMatrix strange_attractor_discretized_cpp(
        p.increment();
      }
 
-
-     x[i+1] = a1 + a2*x[i] +  a3*y[i] +  a4*pow(fabs(x[i]), a5)  +  a6*pow(fabs(y[i]),  a7);
-     y[i+1] = a8 + a9*x[i] + a10*y[i] + a11*pow(fabs(x[i]), a12) + a13*pow(fabs(y[i]), a14);
+     sa = sprott_7e(a, x[i], y[i]);
+     x[i+1] = sa(0);
+     y[i+1] = sa(1);
 
      // test for infinity and break
-     if (
-         Rcpp::traits::is_infinite<REALSXP>(x[i+1]) |
-           Rcpp::traits::is_infinite<REALSXP>(y[i+1]) |
-           Rcpp::traits::is_nan<REALSXP>(x[i+1]) |
-           Rcpp::traits::is_nan<REALSXP>(y[i+1])
-     ) {
+     if (is_inf_or_na(x[i+1], y[i+1])) {
        Rcout << "infinity / nan at i = " << i << std::endl;
        encountered_infinity = true;
        x = x[Range(0, i)];
@@ -119,14 +136,8 @@ NumericMatrix strange_attractor_discretized_cpp(
 
    // Do initial discretization
 
-   // Rcout << "Here at i = " << i << std::endl;
-
    x_range = quantile_cpp(x, qx);
    y_range = quantile_cpp(y, qy);
-
-   // Rcout << "x_range: " << x_range << std::endl;
-   // Rcout << "y_range: " << y_range << std::endl;
-
 
    // Subset x and y to include only the range inside the quantiles
 
@@ -140,11 +151,7 @@ NumericMatrix strange_attractor_discretized_cpp(
    x = x[index];
    y = y[index];
 
-   // Rcout << "x.size = " << x.size() << std::endl;
-
    if (x.size() == 0) return (-1);
-
-   // Rcout << "Starting to discretize vectors" << std::endl;
 
    z = discretize_vectors_cpp(x, y, dims, x_range, y_range);
 
@@ -171,17 +178,13 @@ NumericMatrix strange_attractor_discretized_cpp(
        p.increment();
      }
 
-     x[i+1] = a1 + a2*x[i] +  a3*y[i] +  a4*pow(fabs(x[i]), a5)  +  a6*pow(fabs(y[i]),  a7);
-     y[i+1] = a8 + a9*x[i] + a10*y[i] + a11*pow(fabs(x[i]), a12) + a13*pow(fabs(y[i]), a14);
+     sa = sprott_7e(a, x[i], y[i]);
+     x[i+1] = sa(0);
+     y[i+1] = sa(1);
 
      // test for infinity and break
-     if (
-         Rcpp::traits::is_infinite<REALSXP>(x[i+1]) |
-           Rcpp::traits::is_infinite<REALSXP>(y[i+1]) |
-           Rcpp::traits::is_nan<REALSXP>(x[i+1]) |
-           Rcpp::traits::is_nan<REALSXP>(y[i+1])
-     ) {
-       Rcout << "infinity at j = " << j << std::endl;
+     if (is_inf_or_na(x[i+1], y[i+1])) {
+        Rcout << "infinity at j = " << j << std::endl;
        encountered_infinity = true;
        x = x[Range(0, i)];
        y = y[Range(0, i)];
@@ -192,7 +195,7 @@ NumericMatrix strange_attractor_discretized_cpp(
           (y[i+1] >= y_range[0]) && (y[i+1] <= y_range[1])) {
        xx = round(scale_01(x[i+1], x_range[0], x_range[1]) * (rows - 1));
        yy = round(scale_01(y[i+1], y_range[0], y_range[1]) * (cols - 1));
-       z(xx, yy) += 1;
+       z(rows - 1 - xx, yy) += 1;
      }
 
      x[i] = x[i+1];

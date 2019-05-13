@@ -22,7 +22,10 @@ NumericMatrix discretize_vectors_cpp(NumericVector x, NumericVector y, NumericVe
   for (unsigned long i = 0; i < xsize; i++){
     int xx = round(scale_01(x[i], x_range[0], x_range[1]) * (rows - 1));
     int yy = round(scale_01(y[i], y_range[0], y_range[1]) * (cols - 1));
-    if (xx <= rows && yy <= cols) z(xx, yy) += 1;
+    if (xx <= rows && yy <= cols) {
+      z(rows - 1 - xx, yy) += 1;
+    }
+
   }
   return z;
 }
