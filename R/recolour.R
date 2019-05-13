@@ -3,7 +3,7 @@
 #' @param x Matrix
 #'
 #' @return Matrix
-# @export
+#' @keywords Internal
 flip_180 <- function(x){
   x[rev(seq_len(nrow(x))), ]
 }
@@ -16,7 +16,7 @@ flip_180 <- function(x){
 #' @param x Matrix
 #'
 #' @return Matrix
-#' @export
+#' @keywords Internal
 invert <- function(x) {
   1 - x / max(x, na.rm = TRUE)
 }

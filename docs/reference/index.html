@@ -8,6 +8,13 @@
 
 <title>Function reference • attractor</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -31,6 +38,9 @@
 
 
 <meta property="og:title" content="Function reference" />
+
+<meta property="og:image" content="/logo.png" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -125,20 +135,54 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-sprott-e-attractor" class="hasAnchor"><a href="#section-sprott-e-attractor" class="anchor"></a>Sprott 7E attractor</h2>
+          <p class="section-desc"><p>Generate the data points using the attractor defined by Sprott, in equation 7E of his book.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="seed_sprott_7e.html">seed_sprott_7e()</a></code> </p>
+        </td>
+        <td><p>Generate attractor for the Sprott 7e attractor.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="attractor_sprott_7e.html">attractor_sprott_7e()</a></code> </p>
+        </td>
+        <td><p>Generate strange attractor.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-recolour-and-plot" class="hasAnchor"><a href="#section-recolour-and-plot" class="anchor"></a>Recolour and plot</h2>
+          <p class="section-desc"><p>Change the colour of the plot and background</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="plot.attractor.html">plot(<i>&lt;attractor&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot a strange attractor.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="recolour.html">recolour()</a></code> <code><a href="recolour.html">recolor()</a></code> </p>
+        </td>
+        <td><p>Use palette from ColorBrewer to recolour the image.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-internal-functions" class="hasAnchor"><a href="#section-internal-functions" class="anchor"></a>Internal functions</h2>
+          <p class="section-desc"><p>Internal functions</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
           <p><code><a href="attractor_generic.html">attractor_generic()</a></code> </p>
-        </td>
-        <td><p>Generate strange attractor.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="attractor_sprott_7e.html">attractor_sprott_7e()</a></code> </p>
         </td>
         <td><p>Generate strange attractor.</p></td>
       </tr><tr>
@@ -162,24 +206,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="plot.attractor.html">plot(<i>&lt;attractor&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot a strange attractor.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="recolour.html">recolour()</a></code> <code><a href="recolour.html">recolor()</a></code> </p>
-        </td>
-        <td><p>Use palette from ColorBrewer to recolour the image.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="seed_sprott_7e.html">seed_sprott_7e()</a></code> </p>
-        </td>
-        <td><p>Generate attractor for the Sprott 7e attractor.</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="trim_quantiles.html">trim_quantiles()</a></code> </p>
         </td>
         <td><p>Trim x and y range based on quantiles</p></td>
@@ -191,7 +217,9 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-sprott-e-attractor">Sprott 7E attractor</a></li>
+      <li><a href="#section-recolour-and-plot">Recolour and plot</a></li>
+      <li><a href="#section-internal-functions">Internal functions</a></li>
     </ul>
   </div>
 </div>

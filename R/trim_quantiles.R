@@ -4,7 +4,7 @@
 #' @param q Quantiles cutoff
 #'
 #' @return A data frame
-#' @export
+#' @keywords Internal
 #'
 #' @importFrom stats na.omit quantile
 #'

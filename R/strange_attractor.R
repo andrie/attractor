@@ -12,6 +12,7 @@
 #'
 #' @return if `discretize == TRUE` a matrix with dimensions `dims`, else a data frame with columns `x` and `y`, and `n` rows.
 #' @importFrom assertthat assert_that
+#' @keywords Internal
 #'
 attractor_generic <- function(
   a, n, x0 = 1, y0 = 1,

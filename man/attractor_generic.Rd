@@ -33,3 +33,4 @@ if \code{discretize == TRUE} a matrix with dimensions \code{dims}, else a data f
 \description{
 Generate strange attractor.
 }
+\keyword{Internal}

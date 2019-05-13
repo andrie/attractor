@@ -15,3 +15,4 @@ Matrix
 \description{
 Flip image by 180 degrees
 }
+\keyword{Internal}

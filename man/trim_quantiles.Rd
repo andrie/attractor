@@ -17,3 +17,4 @@ A data frame
 \description{
 Trim x and y range based on quantiles
 }
+\keyword{Internal}

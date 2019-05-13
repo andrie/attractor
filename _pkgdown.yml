@@ -1,0 +1,21 @@
+reference:
+- title: 'Sprott 7E attractor'
+  desc: >
+    Generate the data points using the attractor defined by Sprott, in equation 7E of his book.
+  contents:
+  - seed_sprott_7e
+  - attractor_sprott_7e
+- title: 'Recolour and plot'
+  desc: >
+    Change the colour of the plot and background
+  contents:
+  - plot.attractor
+  - recolour
+- title: 'Internal functions'
+  desc: 'Internal functions'
+  contents:
+  - attractor_generic
+  - discretize
+  - flip_180
+  - invert
+  - trim_quantiles

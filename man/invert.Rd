@@ -15,3 +15,4 @@ Matrix
 \description{
 Invert colours
 }
+\keyword{Internal}
