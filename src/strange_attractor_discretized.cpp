@@ -1,6 +1,5 @@
 #include <Rcpp.h>
-// isinf() is in math.h
-#include <math.h>
+#include <math.h>  // isinf() is in math.h
 using namespace Rcpp;
 
 // forward declarations
@@ -78,6 +77,8 @@ NumericMatrix strange_attractor_discretized_cpp(
 
    // Do the first n_discretize elements
 
+   bool encountered_infinity = false;
+
    int i;
    for(i = 0; i < nd - 1; ++i) {
 
@@ -93,10 +94,24 @@ NumericMatrix strange_attractor_discretized_cpp(
 
      x[i+1] = a1 + a2*x[i] +  a3*y[i] +  a4*pow(fabs(x[i]), a5)  +  a6*pow(fabs(y[i]),  a7);
      y[i+1] = a8 + a9*x[i] + a10*y[i] + a11*pow(fabs(x[i]), a12) + a13*pow(fabs(y[i]), a14);
+
+     // test for infinity and break
+     if (
+         Rcpp::traits::is_infinite<REALSXP>(x[i+1]) |
+           Rcpp::traits::is_infinite<REALSXP>(y[i+1]) |
+           Rcpp::traits::is_nan<REALSXP>(x[i+1]) |
+           Rcpp::traits::is_nan<REALSXP>(y[i+1])
+     ) {
+       Rcout << "infinity / nan at i = " << i << std::endl;
+       encountered_infinity = true;
+       x = x[Range(0, i)];
+       y = y[Range(0, i)];
+       break;
+     }
    }
 
-   double last_x = x[i+1];
-   double last_y = x[i+1];
+   double last_x = x[i];
+   double last_y = x[i];
 
 
    // Find quantiles
@@ -104,10 +119,14 @@ NumericMatrix strange_attractor_discretized_cpp(
 
    // Do initial discretization
 
-
+   // Rcout << "Here at i = " << i << std::endl;
 
    x_range = quantile_cpp(x, qx);
    y_range = quantile_cpp(y, qy);
+
+   // Rcout << "x_range: " << x_range << std::endl;
+   // Rcout << "y_range: " << y_range << std::endl;
+
 
    // Subset x and y to include only the range inside the quantiles
 
@@ -154,6 +173,20 @@ NumericMatrix strange_attractor_discretized_cpp(
 
      x[i+1] = a1 + a2*x[i] +  a3*y[i] +  a4*pow(fabs(x[i]), a5)  +  a6*pow(fabs(y[i]),  a7);
      y[i+1] = a8 + a9*x[i] + a10*y[i] + a11*pow(fabs(x[i]), a12) + a13*pow(fabs(y[i]), a14);
+
+     // test for infinity and break
+     if (
+         Rcpp::traits::is_infinite<REALSXP>(x[i+1]) |
+           Rcpp::traits::is_infinite<REALSXP>(y[i+1]) |
+           Rcpp::traits::is_nan<REALSXP>(x[i+1]) |
+           Rcpp::traits::is_nan<REALSXP>(y[i+1])
+     ) {
+       Rcout << "infinity at j = " << j << std::endl;
+       encountered_infinity = true;
+       x = x[Range(0, i)];
+       y = y[Range(0, i)];
+       break;
+     }
 
      if ( (x[i+1] >= x_range[0]) && (x[i+1] <= x_range[1]) &&
           (y[i+1] >= y_range[0]) && (y[i+1] <= y_range[1])) {
