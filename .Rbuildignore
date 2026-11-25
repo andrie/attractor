@@ -3,3 +3,9 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 docs
+^\.travis\.yml$
+^codecov\.yml$
+^doc$
+^Meta$
+^\.vscode$
+^[.]?air[.]toml$

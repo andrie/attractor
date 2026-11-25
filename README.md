@@ -5,6 +5,12 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.org/andrie/attractor.svg?branch=master)](https://travis-ci.org/andrie/attractor)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/attractor)](https://cran.r-project.org/package=attractor)
+[![Codecov test
+coverage](https://codecov.io/gh/andrie/attractor/branch/master/graph/badge.svg)](https://codecov.io/gh/andrie/attractor?branch=master)
 <!-- badges: end -->
 
 The goal of `attractor` is to generate and plot strange attractors.
@@ -31,29 +37,31 @@ Create a strange attractor with 10 million points, then discretize to a
 matrix with dimensions `400 x 400`:
 
 ``` r
-library(magrittr)
 library(attractor)
 
-a <- seed_sprott_7e(21031)
-#> setting seed
-
 dat <- 
-  a %>% 
-  attractor_sprott_7e(1e6, dims = c(400, 400))
+  seed_sprott_7e(21031)
+  attractor_sprott_7e(1e7, dims = c(400, 400))
+  plot()
+```
+
+An attractor object is a numeric matrix with counts.  The values represent how many times the attractor passed through the rectangle represented by the cell.
+
+``` {r}
 str(dat)
-#>  num [1:400, 1:400] 0 0 0 0 0 0 0 0 0 0 ...
 ```
 
 ## Plotting a strange attractor
 
+R plots matrices as raster images. To clear the margins, set the parameters `mar` and `mai`, then plot using base R plotting.
+
 ``` r
 par(mar = rep(0, 4), mai = rep(0, 4))
-dat %>% 
-  recolour() %>% 
+dat |> 
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" height="400px" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" alt="" height="400px" />
 
 ## Recolour the plot
 
@@ -69,55 +77,55 @@ The palette argument can be any of the following:
 2.  The name of an `RColorBrewer` palette, e.g. `"BuPu"` or `"Greens"`.
 
 3.  A function that receives a single value between 0 and 1 and returns
-    a colour. Examples: `colorRamp(c("#000000", "#FFFFFF"),
-    interpolate="spline")`.
+    a colour. Examples:
+    `colorRamp(c("#000000", "#FFFFFF"), interpolate="spline")`.
 
 Use the `Oranges` palette:
 
 ``` r
-dat %>% 
-  recolour("Oranges") %>%
+dat |> 
+  recolour("Oranges") |>
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" height="400px" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" alt="" height="400px" />
 
 To change the background colour, specify a `zero_colour`:
 
 ``` r
-dat %>% 
-  recolour("Oranges", zero_colour = "#FFFAF6") %>%
+dat |> 
+  recolour("Oranges", zero_colour = "#FFFAF6") |>
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" height="400px" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" alt="" height="400px" />
 
 You can also invert the palette
 
 ``` r
-dat %>% 
-  recolour("Oranges", zero_colour = "grey20", invert = TRUE) %>%
+dat |> 
+  recolour("Oranges", zero_colour = "grey20", invert = TRUE) |>
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" height="400px" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" alt="" height="400px" />
 
 Try the `Spectral` palette:
 
 ``` r
-dat %>% 
-  recolour("Spectral", zero_colour = "#9E0142") %>%
+dat |> 
+  recolour("Spectral", zero_colour = "#9E0142") |>
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" height="400px" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" alt="" height="400px" />
 
 With inversion:
 
 ``` r
-dat %>% 
-  recolour("Spectral", invert = TRUE, zero_colour = "#5E4FA2") %>%
+dat |> 
+  recolour("Spectral", invert = TRUE, zero_colour = "#5E4FA2") |>
   plot()
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" height="400px" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" alt="" height="400px" />

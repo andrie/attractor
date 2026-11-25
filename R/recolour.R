@@ -26,6 +26,17 @@ invert <- function(x) {
 
 #' Use palette from ColorBrewer to recolour the image.
 #'
+#' You can use any of the colours defined by the [scales::col_numeric()]
+#' function.
+#'
+#' The palette argument can be any of the following:
+#'
+#' 1. A character vector of RGB or named colours. Examples: `palette()`,
+#' `c("#000000", "#0000FF", "#FFFFFF")`, `topo.colors(10)` 2. The name of an
+#' `RColorBrewer` palette, e.g. `"BuPu"` or `"Greens"`. 3. A function that
+#' receives a single value between 0 and 1 and returns a colour. Examples:
+#' `colorRamp(c("#000000", "#FFFFFF"), interpolate="spline")`.
+#'
 #' @param x Matrix
 #' @param palette ColorBrewer palette. This value is passed to [scales::col_numeric()]
 #' @param zero_colour Colour to use for zero and NA values
@@ -36,7 +47,11 @@ invert <- function(x) {
 #' @export
 #' @importFrom scales col_numeric
 #' @importFrom grDevices col2rgb as.raster rgb
-recolour <- function(x, palette = "Blues", zero_colour = NA, invert = FALSE, trans = log1p){
+#'
+#' @example inst/examples/example_recolour.R
+#'
+recolour <- function(x, palette = "Blues", zero_colour = NA, invert = FALSE, trans = "log1p"){
+  class(x) <- "matrix"
   zero_colour <- do.call(rgb, as.list(col2rgb(zero_colour) / 255))
   if (!is.null(trans)) {
     x <- match.fun(trans)(x)

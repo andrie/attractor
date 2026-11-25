@@ -13,23 +13,16 @@
 #'
 #' @importFrom graphics plot
 #'
+#' @example inst/examples/example_plot.R
+#'
 plot.attractor <- function(x, palette = "BuPu", invert = FALSE,
                            dims = c(600, 600), zero_colour = NA,
                            trim_quantiles = 0, trans = "log1p", ...){
-  if (any(is.infinite(x[[1]])) || any(is.infinite(x[[2]]))) {
-    message("Infinite values")
-    return(NULL)
-  }
-
-  if (trim_quantiles > 0) {
-    x <- trim_quantiles(x, q = trim_quantiles)
-  }
-
-  if (nrow(x) == 0) return(invisible(as.raster(matrix(0, nrow = dims[1], ncol = dims[2]))))
-
-  z <- discretize(x, dims = dims)
-  z <- match.fun(trans)(z)
-  z <- recolour(z, palette = palette, invert = invert, zero_colour = zero_colour)
+  assert_that(is.matrix(x))
+  assert_that(length(dim(x)) == 2)
+  z <- match.fun(trans)(x)
+  class(z) <- "matrix"
+  z <- recolour(z, palette = palette, invert = invert, zero_colour = zero_colour, trans = trans)
   plot(z, ...)
   invisible(z)
 }

@@ -9,16 +9,17 @@ Authors@R:
     person(given = "Antonio", family = "Sánchez",
            role = c("ctb"),
            email = "aschinchon@gmail.com"))
-Description: Create and Plot Strange Attractors.  The package is fast, because 
-    the attractor algorithm uses `Rcpp` for speed. In addition, the resulting 
-    attractor is discretized (binned) into a much smaller matrix, making plotting 
-    also very fast.
+Description: Create and plot attractors, specifically an attractor described by 
+    Julian Sprott in his book ""Strange Attractors: Creating Patterns in Chaos".  
+    The package is fast, because the attractor algorithm uses 'Rcpp' for speed. 
+    In addition, the resulting attractor is discretized (binned) into a much 
+    smaller matrix, making plotting also very fast.
 License: MIT + file LICENSE
 URL: https://github.com/andrie/attractor
-VignetteBuilder: rmarkdown
+VignetteBuilder: quarto
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 Imports: 
     Rcpp,
@@ -29,7 +30,9 @@ LinkingTo:
     Rcpp,
     RcppProgress
 Suggests: 
+    quarto,
     rmarkdown,
     testthat (>= 2.1.0),
     knitr,
-    here
+    here,
+    covr

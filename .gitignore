@@ -1,6 +1,37 @@
+# R session / project files
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-plots\
+.Rapp.history
+
+# R package build artifacts
+*.tar.gz
+*.Rcheck/
+..Rcheck/
+revdep/
+
+# Compiled code (src/)
+src/*.o
+src/*.so
+src/*.dll
+
+# Vignette / doc build outputs
 inst/doc
+/doc/
+/Meta/
+/vignettes/introduction_files
+vignettes/*.html
+vignettes/*.R
+
+# pkgdown site
+docs/
+
+# Quarto
+/.quarto/
+**/*.quarto_ipynb
+
+# Misc
+plots/
+*.log
+.DS_Store

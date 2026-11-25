@@ -1,4 +1,4 @@
-context("discretize")
+# context("discretize")
 
 test_that("discretization works", {
   dims <- c(10, 10)

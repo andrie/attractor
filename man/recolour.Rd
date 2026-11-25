@@ -5,11 +5,21 @@
 \alias{recolor}
 \title{Use palette from ColorBrewer to recolour the image.}
 \usage{
-recolour(x, palette = "Blues", zero_colour = NA, invert = FALSE,
-  trans = log1p)
+recolour(
+  x,
+  palette = "Blues",
+  zero_colour = NA,
+  invert = FALSE,
+  trans = "log1p"
+)
 
-recolor(x, palette = "Blues", zero_colour = NA, invert = FALSE,
-  trans = log1p)
+recolor(
+  x,
+  palette = "Blues",
+  zero_colour = NA,
+  invert = FALSE,
+  trans = "log1p"
+)
 }
 \arguments{
 \item{x}{Matrix}
@@ -26,5 +36,33 @@ recolor(x, palette = "Blues", zero_colour = NA, invert = FALSE,
 Matrix
 }
 \description{
-Use palette from ColorBrewer to recolour the image.
+You can use any of the colours defined by the \code{\link[scales:col_numeric]{scales::col_numeric()}}
+function.
+}
+\details{
+The palette argument can be any of the following:
+\enumerate{
+\item A character vector of RGB or named colours. Examples: \code{palette()},
+\code{c("#000000", "#0000FF", "#FFFFFF")}, \code{topo.colors(10)} 2. The name of an
+\code{RColorBrewer} palette, e.g. \code{"BuPu"} or \code{"Greens"}. 3. A function that
+receives a single value between 0 and 1 and returns a colour. Examples:
+\code{colorRamp(c("#000000", "#FFFFFF"), interpolate="spline")}.
+}
+}
+\examples{
+# Generate the seed vector (14 random values)
+a <- seed_sprott_7e(fast_forward = 429)
+
+# Generate points, trim at the 0.03 quantile, and discretize to a 600x900 matrix
+dat <- attractor_sprott_7e(a, n = 1e6, qs = 0.03, dims = c(600, 900))
+
+# Set empty plot margins
+par(mar = rep(0, 4), mai = rep(0, 4))
+
+# Plot using various palettes from `RColorBrewer`
+plot(recolour(dat, palette = "Oranges"))
+plot(recolour(dat, palette = "Greens"))
+
+plot(recolour(dat, palette = "Oranges", zero_colour = "#FFFAF6"))
+plot(recolour(dat, palette = "Oranges", zero_colour = "grey20", invert = TRUE))
 }

@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // discretize_vectors_cpp
 NumericMatrix discretize_vectors_cpp(NumericVector x, NumericVector y, NumericVector dims, NumericVector x_range, NumericVector y_range);
 RcppExport SEXP _attractor_discretize_vectors_cpp(SEXP xSEXP, SEXP ySEXP, SEXP dimsSEXP, SEXP x_rangeSEXP, SEXP y_rangeSEXP) {

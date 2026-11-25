@@ -1,9 +1,9 @@
 ---
 title: "A showcase of some attractors"
-output: rmarkdown::html_vignette
+format: html
 vignette: >
   %\VignetteIndexEntry{showcase}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
 

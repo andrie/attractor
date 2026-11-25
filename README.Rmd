@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.height="400px"
+  out.height = "400px"
 )
 knitr::opts_knit$set(global.par = TRUE)
 par(mar = rep(0, 4), mai = rep(0, 4))
@@ -19,6 +19,9 @@ par(mar = rep(0, 4), mai = rep(0, 4))
 
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.org/andrie/attractor.svg?branch=master)](https://travis-ci.org/andrie/attractor)
+[![CRAN status](https://www.r-pkg.org/badges/version/attractor)](https://cran.r-project.org/package=attractor)
+[![Codecov test coverage](https://codecov.io/gh/andrie/attractor/branch/master/graph/badge.svg)](https://codecov.io/gh/andrie/attractor?branch=master)
 <!-- badges: end -->
 
 The goal of `attractor` is to generate and plot strange attractors.
@@ -45,15 +48,10 @@ Create a strange attractor with 10 million points, then discretize to a matrix w
 
 
 ```{r}
-library(magrittr)
 library(attractor)
-
-a <- seed_sprott_7e(21031)
-
-dat <- 
-  a %>% 
-  attractor_sprott_7e(1e6, dims = c(400, 400))
-str(dat)
+seed_sprott_7e(21031) |>
+  attractor_sprott_7e(1e6, dims = c(400, 400)) |>
+  plot()
 ```
 
 
@@ -61,8 +59,8 @@ str(dat)
 
 ```{r}
 par(mar = rep(0, 4), mai = rep(0, 4))
-dat %>% 
-  recolour() %>% 
+dat |>
+  recolour() |>
   plot()
 ```
 
@@ -83,24 +81,24 @@ The palette argument can be any of the following:
 Use the `Oranges` palette:
 
 ```{r}
-dat %>% 
-  recolour("Oranges") %>%
+dat |>
+  recolour("Oranges") |>
   plot()
 ```
 
 To change the background colour, specify a `zero_colour`:
 
 ```{r}
-dat %>% 
-  recolour("Oranges", zero_colour = "#FFFAF6") %>%
+dat |>
+  recolour("Oranges", zero_colour = "#FFFAF6") |>
   plot()
 ```
 
 You can also invert the palette
 
 ```{r}
-dat %>% 
-  recolour("Oranges", zero_colour = "grey20", invert = TRUE) %>%
+dat |>
+  recolour("Oranges", zero_colour = "grey20", invert = TRUE) |>
   plot()
 ```
 
@@ -108,16 +106,16 @@ Try the `Spectral` palette:
 
 
 ```{r}
-dat %>% 
-  recolour("Spectral", zero_colour = "#9E0142") %>%
+dat |>
+  recolour("Spectral", zero_colour = "#9E0142") |>
   plot()
 ```
 
 With inversion:
 
 ```{r}
-dat %>% 
-  recolour("Spectral", invert = TRUE, zero_colour = "#5E4FA2") %>%
+dat |>
+  recolour("Spectral", invert = TRUE, zero_colour = "#5E4FA2") |>
   plot()
 ```
 
