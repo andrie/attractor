@@ -1,0 +1,10 @@
+pandoc: 3.8.3
+pkgdown: 2.2.1
+pkgdown_sha: ~
+articles:
+  introduction: introduction.html
+  showcase: showcase.html
+last_built: 2026-11-25T22:20Z
+urls:
+  reference: https://andrie.github.io/attractor/reference
+  article: https://andrie.github.io/attractor/articles
