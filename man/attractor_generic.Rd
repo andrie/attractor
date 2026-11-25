@@ -12,7 +12,8 @@ attractor_generic(
   dims = c(600, 600),
   progress = (n >= 1e+05),
   n_discretize = 1e+06,
-  qs = qs,
+  qs = 0.05,
+  parallel_orbit = default_parallel_orbit(),
   discretize = TRUE
 )
 }
@@ -28,12 +29,18 @@ attractor}
 
 \item{dims}{Dimensions of resulting matrix, only used if \code{discretize == TRUE}}
 
-\item{progress}{If TRUE, displays a progress bar}
+\item{progress}{Ignored; retained for backward compatibility}
 
-\item{n_discretize}{Number of values to generate before computing the
-discretization range}
+\item{n_discretize}{Ignored; the range is set from the first 1e6 points.
+Retained for backward compatibility.}
 
-\item{qs}{quantile cutoff}
+\item{qs}{Quantile cutoff: a single number in \verb{[0, 0.5)}. The range of each
+axis is set at the \code{qs} and \code{1 - qs} percentiles.}
+
+\item{parallel_orbit}{Number of independent orbit trajectories that run in
+parallel (one per thread by default). Use \code{1} for the serial orbit. The
+attractor looks the same either way, but the counts differ in detail, and
+for a given number of trajectories the result is deterministic.}
 
 \item{discretize}{If \code{TRUE} discretizes to a matrix with dimensions \code{dims},
 else returns a data frame with one row for every data point}

@@ -7,6 +7,7 @@ reference:
   contents:
   - seed_sprott_7e
   - attractor_sprott_7e
+  - png_sprott_7e
 - title: 'Recolour and plot'
   desc: >
     Change the colour of the plot and background

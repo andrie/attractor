@@ -35,3 +35,9 @@ docs/
 plots/
 *.log
 .DS_Store
+src/rust/vendor
+src/Makevars
+
+# Rust build output (cargo target dirs) and the build's temporary CARGO_HOME
+src/rust/**/target/
+src/.cargo/

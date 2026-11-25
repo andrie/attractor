@@ -4,9 +4,6 @@ a <- seed_sprott_7e(fast_forward = 429)
 # Generate points, trim at the 0.03 quantile, and discretize to a 600x900 matrix
 dat <- attractor_sprott_7e(a, n = 1e6, qs = 0.03, dims = c(600, 900))
 
-# Set empty plot margins
-par(mar = rep(0, 4), mai = rep(0, 4))
-
 # Plot using various palettes from `RColorBrewer`
 plot(recolour(dat, palette = "Oranges"))
 plot(recolour(dat, palette = "Greens"))

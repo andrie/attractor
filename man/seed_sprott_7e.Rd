@@ -16,6 +16,7 @@ Generate attractor for the Sprott 7e attractor.
 }
 \seealso{
 Other sprott functions: 
-\code{\link{attractor_sprott_7e}()}
+\code{\link{attractor_sprott_7e}()},
+\code{\link{png_sprott_7e}()}
 }
 \concept{sprott functions}

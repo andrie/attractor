@@ -15,11 +15,27 @@ coverage](https://codecov.io/gh/andrie/attractor/branch/master/graph/badge.svg)]
 
 The goal of `attractor` is to generate and plot strange attractors.
 
-Using this package is fast, because:
+Julien C. Sprott’s book *Strange Attractors: Creating Patterns in Chaos*
+(1993) shows how to make an endless variety of fractal patterns from
+simple equations. You don’t pick the coefficients yourself. The computer
+picks them at random, iterates the equations, and keeps the result only
+if the orbit settles into something worth looking at. The book describes
+over 350 such patterns, in two, three and more dimensions, and it is
+still a good read if you like maths, art, or both.
 
-1.  The attractor algorithm uses `Rcpp` for speed.
-2.  The resulting attractor is discretized (binned) into a much smaller
-    matrix, making plotting very fast.
+This package implements only the example in chapter 7e. Give it a seed
+and it finds the coefficients for that seed, so the same seed always
+gives you the same picture. Then it iterates the map for as many points
+as you ask for.
+
+Since the computation (both the orbit and the discretization) is done in
+Rust, it is very fast. It takes a fraction of a second to generate an
+oribt with a millions of points, and it’s feasible to generate orbits of
+billions of points. The resulting plot is a matrix of only a few hundred
+pixels in each dimension, so it is also very fast to plot.
+
+The book is available as a free PDF from [Sprott’s
+website](https://sprott.physics.wisc.edu/fractals.htm).
 
 ## Installation
 
@@ -38,26 +54,22 @@ matrix with dimensions `400 x 400`:
 
 ``` r
 library(attractor)
+dat <-
+  seed_sprott_7e(21031) |>
+  attractor_sprott_7e(1e6, dims = c(400, 400))
 
-dat <- 
-  seed_sprott_7e(21031)
-  attractor_sprott_7e(1e7, dims = c(400, 400))
+dat |>
   plot()
 ```
 
-An attractor object is a numeric matrix with counts.  The values represent how many times the attractor passed through the rectangle represented by the cell.
-
-``` {r}
-str(dat)
-```
+<img src="man/figures/README-unnamed-chunk-2-1.png" alt="" height="400px" />
 
 ## Plotting a strange attractor
 
-R plots matrices as raster images. To clear the margins, set the parameters `mar` and `mai`, then plot using base R plotting.
-
 ``` r
 par(mar = rep(0, 4), mai = rep(0, 4))
-dat |> 
+dat |>
+  recolour() |>
   plot()
 ```
 
@@ -83,7 +95,7 @@ The palette argument can be any of the following:
 Use the `Oranges` palette:
 
 ``` r
-dat |> 
+dat |>
   recolour("Oranges") |>
   plot()
 ```
@@ -93,7 +105,7 @@ dat |>
 To change the background colour, specify a `zero_colour`:
 
 ``` r
-dat |> 
+dat |>
   recolour("Oranges", zero_colour = "#FFFAF6") |>
   plot()
 ```
@@ -103,7 +115,7 @@ dat |>
 You can also invert the palette
 
 ``` r
-dat |> 
+dat |>
   recolour("Oranges", zero_colour = "grey20", invert = TRUE) |>
   plot()
 ```
@@ -113,7 +125,7 @@ dat |>
 Try the `Spectral` palette:
 
 ``` r
-dat |> 
+dat |>
   recolour("Spectral", zero_colour = "#9E0142") |>
   plot()
 ```
@@ -123,7 +135,7 @@ dat |>
 With inversion:
 
 ``` r
-dat |> 
+dat |>
   recolour("Spectral", invert = TRUE, zero_colour = "#5E4FA2") |>
   plot()
 ```

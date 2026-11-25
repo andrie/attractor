@@ -13,6 +13,7 @@ attractor_sprott_7e(
   progress = (n >= 1e+05),
   n_discretize = 1e+06,
   qs = 0.05,
+  parallel_orbit = default_parallel_orbit(),
   discretize = TRUE
 )
 }
@@ -27,11 +28,13 @@ attractor_sprott_7e(
 
 \item{dims}{Dimensions of resulting matrix}
 
-\item{progress}{If TRUE, displays a progress bar}
+\item{progress}{Ignored; retained for backward compatibility}
 
-\item{n_discretize}{Number of values to generate before computing the range}
+\item{n_discretize}{Ignored; the range is set from the first 1e6 points}
 
-\item{qs}{quantile cutoff}
+\item{qs}{quantile cutoff, a single number in \verb{[0, 0.5)}}
+
+\item{parallel_orbit}{Number of parallel orbit trajectories (one per thread by default); \code{1} for the serial orbit}
 
 \item{discretize}{If \code{TRUE} discretizes to a matrix with dimensions \code{dims} else a data frame}
 }
@@ -53,9 +56,6 @@ a <- seed_sprott_7e(fast_forward = 429)
 # Generate points, trim at the 0.03 quantile, and discretize to a 600x900 matrix
 dat <- attractor_sprott_7e(a, n = 1e6, qs = 0.03, dims = c(600, 900))
 
-# Set empty plot margins
-par(mar = rep(0, 4), mai = rep(0, 4))
-
 # Plot using various palettes from `RColorBrewer`
 plot(recolour(dat, palette = "Oranges"))
 plot(recolour(dat, palette = "Greens"))
@@ -68,6 +68,7 @@ Julien C. Sprott, "Strange Attractors: Creating Patterns in Chaos", page 418, Eq
 }
 \seealso{
 Other sprott functions: 
+\code{\link{png_sprott_7e}()},
 \code{\link{seed_sprott_7e}()}
 }
 \concept{sprott functions}

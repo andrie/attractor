@@ -26,7 +26,8 @@
 
 \item{zero_colour}{Colour to use for zero and NA values}
 
-\item{trim_quantiles}{Numeric value, indicating a trim value. Quantiles below this value, as well as higher than \verb{(1 - trim_quantiles} will be removed from data prior to plotting.}
+\item{trim_quantiles}{Numeric value, indicating a trim value. Quantiles below this value, as well as higher than \code{(1 - trim_quantiles)}
+will be removed from data prior to plotting.}
 
 \item{trans}{Transforming function}
 
@@ -44,9 +45,6 @@ a <- seed_sprott_7e(fast_forward = 429)
 
 # Generate points, trim at the 0.03 quantile, and discretize to a 600x900 matrix
 dat <- attractor_sprott_7e(a, n = 1e6, qs = 0.03, dims = c(600, 900))
-
-# Set empty plot margins
-par(mar = rep(0, 4), mai = rep(0, 4))
 
 # Plot using various palettes from `RColorBrewer`
 plot(dat, palette = "Oranges")

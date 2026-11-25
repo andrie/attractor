@@ -1,0 +1,25 @@
+[package]
+name = 'attractor'
+publish = false
+version = '0.1.0'
+edition = '2021'
+rust-version = '1.65'
+
+[lib]
+crate-type = [ 'rlib', 'staticlib' ]
+name = 'attractor'
+
+[[bin]]
+name = 'document'
+path = 'document.rs'
+
+[dependencies]
+extendr-api = '0.8.2'
+attractor-core = { path = "attractor-core", features = ["libm"] }
+ndarray = "0.15.6"
+
+[profile.release]
+opt-level = 3
+
+[profile.dev]
+opt-level = 3

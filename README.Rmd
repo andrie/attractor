@@ -19,17 +19,21 @@ par(mar = rep(0, 4), mai = rep(0, 4))
 
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/andrie/attractor.svg?branch=master)](https://travis-ci.org/andrie/attractor)
 [![CRAN status](https://www.r-pkg.org/badges/version/attractor)](https://cran.r-project.org/package=attractor)
 [![Codecov test coverage](https://codecov.io/gh/andrie/attractor/branch/master/graph/badge.svg)](https://codecov.io/gh/andrie/attractor?branch=master)
 <!-- badges: end -->
 
 The goal of `attractor` is to generate and plot strange attractors.
 
-Using this package is fast, because:
+Julien C. Sprott's book *Strange Attractors: Creating Patterns in Chaos* (1993) shows how to make an endless variety of fractal patterns from simple equations. You don't pick the coefficients yourself. The computer picks them at random, iterates the equations, and keeps the result only if the orbit settles into something worth looking at. The book describes over 350 such patterns, in two, three and more dimensions, and it is still a good read if you like maths, art, or both.
 
-1. The attractor algorithm uses `Rcpp` for speed.
-1. The resulting attractor is discretized (binned) into a much smaller matrix, making plotting very fast.
+This package implements only the example in chapter 7e. Give it a seed and it finds the coefficients for that seed, so the same seed always gives you the same picture. Then it iterates the map for as many points as you ask for.
+
+Since the computation (both the orbit and the discretization) is done in Rust, it is very fast. It takes a fraction of a second to generate an oribt with a millions of points, and it's feasible to generate orbits of billions of points.  The resulting plot is a matrix of only a few hundred pixels in each dimension, so it is also very fast to plot.
+
+The book is available as a free PDF from [Sprott's website](https://sprott.physics.wisc.edu/fractals.htm).
+
+
 
 
 
@@ -49,8 +53,11 @@ Create a strange attractor with 10 million points, then discretize to a matrix w
 
 ```{r}
 library(attractor)
-seed_sprott_7e(21031) |>
-  attractor_sprott_7e(1e6, dims = c(400, 400)) |>
+dat <-
+  seed_sprott_7e(21031) |>
+  attractor_sprott_7e(1e6, dims = c(400, 400))
+
+dat |>
   plot()
 ```
 

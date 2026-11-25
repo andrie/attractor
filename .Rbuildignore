@@ -9,3 +9,7 @@ docs
 ^Meta$
 ^\.vscode$
 ^[.]?air[.]toml$
+^src/\.cargo$
+^src/rust/vendor$
+^src/rust/target$
+^src/Makevars$

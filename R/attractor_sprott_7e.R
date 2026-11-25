@@ -13,9 +13,10 @@
 #' @param x0 Initial value for x
 #' @param y0 Initial value for y
 #' @param dims Dimensions of resulting matrix
-#' @param n_discretize Number of values to generate before computing the range
-#' @param qs quantile cutoff
-#' @param progress If TRUE, displays a progress bar
+#' @param n_discretize Ignored; the range is set from the first 1e6 points
+#' @param qs quantile cutoff, a single number in `[0, 0.5)`
+#' @param progress Ignored; retained for backward compatibility
+#' @param parallel_orbit Number of parallel orbit trajectories (one per thread by default); `1` for the serial orbit
 #' @param discretize If `TRUE` discretizes to a matrix with dimensions `dims` else a data frame
 #'
 #' @return if `discretize == TRUE` a matrix with dimensions `dims`, else a data frame with columns `x` and `y`, and `n` rows.
@@ -26,25 +27,31 @@
 #' @example inst/examples/example_sprott_7e.R
 #'
 attractor_sprott_7e <- function(
-  a, n, x0 = 1, y0 = 1,
+  a,
+  n,
+  x0 = 1,
+  y0 = 1,
   dims = c(600, 600),
   progress = (n >= 1e5),
   n_discretize = 1e6,
   qs = 0.05,
-  discretize = TRUE)
-{
+  parallel_orbit = default_parallel_orbit(),
+  discretize = TRUE
+) {
   assert_that(length(a) == 14)
   attractor_generic(
-    a = a, n = n,
-    x0 = x0, y0 = y0,
+    a = a,
+    n = n,
+    x0 = x0,
+    y0 = y0,
     dims = dims,
     progress = progress,
     n_discretize = n_discretize,
     qs = qs,
-    discretize = discretize)
+    parallel_orbit = parallel_orbit,
+    discretize = discretize
+  )
 }
-
-
 
 
 #' Generate attractor for the Sprott 7e attractor.
@@ -55,13 +62,25 @@ attractor_sprott_7e <- function(
 #' @importFrom stats runif rnorm
 #' @export
 #' @family sprott functions
-seed_sprott_7e <- function(fast_forward, seed = if (!missing(fast_forward)) 1 else NA) {
-  length_a <- 14
+seed_sprott_7e <- function(
+  fast_forward,
+  seed = if (!missing(fast_forward)) 1 else NA
+) {
   if (!is.na(seed)) {
+    # Seed locally: leave the caller's RNG state as we found it
+    old <- get0(".Random.seed", envir = globalenv(), inherits = FALSE)
+    on.exit(
+      if (is.null(old)) {
+        rm(".Random.seed", envir = globalenv())
+      } else {
+        assign(".Random.seed", old, envir = globalenv())
+      },
+      add = TRUE
+    )
     set.seed(seed)
   }
   if (!missing(fast_forward)) {
-    runif(2 * length_a * (fast_forward - 1))
+    runif(2 * 14 * (fast_forward - 1))
   }
-  rnorm(length_a, sd = 1)
+  rnorm(14, sd = 1)
 }

@@ -1,0 +1,100 @@
+# Static Makevars for Windows (hand-written; not generated).
+#
+# rextendr generates this file from Makevars.win.in via configure.win, but R
+# then runs `Rcmd config` once per compiler variable before every install
+# (~13 s here). Everything that script decided can be decided by make from the
+# DEBUG and NOT_CRAN environment variables and the presence of vendored crates,
+# so this package has no configure.win. The Unix build still uses `configure`.
+
+TARGET = $(subst 64,x86_64,$(subst 32,i686,$(WIN)))-pc-windows-gnu
+TARGET_DIR = ./rust/target
+
+# DEBUG set (devtools::load_all() sets it): dev-profile build, keep target/.
+# NOT_CRAN set or a git checkout: release build, keep target/ so reinstalls
+# are incremental. Otherwise (CRAN, tarball installs): release build, start
+# clean and delete target/ afterwards; build offline when vendored crates exist.
+ifneq ($(DEBUG),)
+  CARGO_PROFILE =
+  PROFILE_DIR = debug
+  KEEP_TARGET = yes
+else
+  CARGO_PROFILE = --release
+  PROFILE_DIR = release
+endif
+ifneq ($(NOT_CRAN),)
+  KEEP_TARGET = yes
+endif
+# A git checkout is a development tree: devtools::install() and build_readme()
+# don't set NOT_CRAN, so also keep target/ when the package root has a .git.
+# R CMD build never includes .git, so tarball installs still start clean.
+ifneq ($(wildcard ../.git),)
+  KEEP_TARGET = yes
+endif
+ifeq ($(DEBUG)$(NOT_CRAN),)
+  ifneq ($(wildcard rust/vendor.tar.xz),)
+    CRAN_FLAGS = -j 2 --offline
+  endif
+endif
+
+LIBDIR = $(TARGET_DIR)/$(TARGET)/$(PROFILE_DIR)
+STATLIB = $(LIBDIR)/libattractor.a
+# extendr reads R's data symbols (e.g. R_NilValue) directly, which only works
+# when ld auto-imports them from R.dll. If R's bin directory holds an
+# MSVC-style R.lib, the implicit -lR picks that instead, data symbols become
+# jump thunks, and the first .Call segfaults. ld tries every name pattern in
+# one -L directory before moving to the next, so a directory holding only
+# R.dll, searched first, makes -lR bind to the DLL.
+RDLL_DIR = $(TARGET_DIR)/rdll
+PKG_LIBS = -L$(RDLL_DIR) -L$(LIBDIR) -lattractor -lws2_32 -ladvapi32 -luserenv -lbcrypt -lntdll -lsynchronization
+
+all: $(SHLIB) rust_clean
+
+.PHONY: $(STATLIB)
+
+$(SHLIB): $(STATLIB)
+
+CARGOTMP = $(CURDIR)/.cargo
+VENDOR_DIR = vendor
+
+$(STATLIB):
+	@cargo --version > /dev/null 2>&1 || { echo "cargo was not found on the PATH; install Rust (>= 1.65) from https://www.rust-lang.org/tools/install"; exit 1; }
+	mkdir -p $(RDLL_DIR) && cp "$(R_HOME)/bin/$(subst 64,x64,$(subst 32,i386,$(WIN)))/R.dll" $(RDLL_DIR)/R.dll
+	mkdir -p $(TARGET_DIR)/libgcc_mock
+	touch $(TARGET_DIR)/libgcc_mock/libgcc_eh.a
+
+  # If a vendor directory exists, it is used for offline compilation. Otherwise if
+  # vendor.tar.xz exists, it is unzipped and used for offline compilation.
+	if [ -d ./vendor ]; then \
+		echo "=== Using offline vendor directory ==="; \
+		mkdir -p $(CARGOTMP) && \
+		cp rust/vendor-config.toml $(CARGOTMP)/config.toml; \
+	elif [ -f ./rust/vendor.tar.xz ]; then \
+		echo "=== Using offline vendor tarball ==="; \
+		tar xf rust/vendor.tar.xz && \
+		mkdir -p $(CARGOTMP) && \
+		cp rust/vendor-config.toml $(CARGOTMP)/config.toml; \
+	fi
+
+	# Build the project using Cargo with additional flags
+	# Use a private CARGO_HOME only when building offline from vendored crates;
+	# otherwise keep the user's, so the downloaded registry is reused.
+	if [ -d ./vendor ]; then export CARGO_HOME=$(CARGOTMP); fi && \
+	export LIBRARY_PATH="$(LIBRARY_PATH);$(CURDIR)/$(TARGET_DIR)/libgcc_mock" && \
+	RUSTFLAGS="$(RUSTFLAGS) --print=native-static-libs" cargo build $(CRAN_FLAGS) --target=$(TARGET) --lib $(CARGO_PROFILE) --manifest-path=rust/Cargo.toml --target-dir=$(TARGET_DIR)
+
+	# Generate wrappers. Same profile, target and RUSTFLAGS as the build above,
+	# so that the dependencies compiled there are reused, not compiled again.
+	if [ -d ./vendor ]; then export CARGO_HOME=$(CARGOTMP); fi && \
+	export PATH="$(PATH):$(HOME)/.cargo/bin" && \
+	export LIBRARY_PATH="$(LIBRARY_PATH);$(CURDIR)/$(TARGET_DIR)/libgcc_mock" && \
+	RUSTFLAGS="$(RUSTFLAGS) --print=native-static-libs" cargo run $(CRAN_FLAGS) --bin document $(CARGO_PROFILE) --target $(TARGET) --manifest-path=./rust/Cargo.toml --target-dir $(TARGET_DIR)
+
+	# Always clean up CARGOTMP
+	rm -Rf $(CARGOTMP);
+
+# CRAN-style builds delete target/; KEEP_TARGET builds keep it
+rust_clean: $(SHLIB)
+	rm -Rf $(CARGOTMP) $(VENDOR_DIR) $(if $(KEEP_TARGET),,$(TARGET_DIR))
+
+clean:
+	rm -Rf $(SHLIB) $(STATLIB) $(OBJECTS) $(TARGET_DIR) $(VENDOR_DIR)
