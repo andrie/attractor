@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   introduction: introduction.html
   showcase: showcase.html
-last_built: 2026-11-26T15:19Z
+last_built: 2026-11-26T15:41Z
 urls:
   reference: https://andrie.github.io/attractor/reference
   article: https://andrie.github.io/attractor/articles
