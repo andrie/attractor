@@ -55,6 +55,15 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      # On Windows, the R process that Quarto starts to render the vignettes
+      # doesn't see the temporary library where R CMD build installed the
+      # package, so library(attractor) fails (r-lib/rcmdcheck#236). Installing
+      # it into the regular library first works around that.
+      - name: Install package for vignette building
+        if: runner.os == 'Windows'
+        run: R CMD INSTALL .
+        shell: bash
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
