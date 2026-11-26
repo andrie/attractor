@@ -18,3 +18,4 @@
 ^pkgdown$
 ^CLAUDE\.md$
 ^logo\.svg$
+^vignettes/\.quarto$

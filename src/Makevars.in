@@ -49,8 +49,14 @@ $(STATLIB):
 	# Always clean up CARGOTMP
 	rm -Rf $(CARGOTMP);
 
+# R CMD check sets _R_SHLIB_BUILD_OBJECTS_SYMBOL_TABLES_ and then scans the
+# libraries in PKG_LIBS. If target/ is still there it finds Rust's std
+# referencing abort/exit in libattractor.a and reports a WARNING, where a
+# CRAN build (target/ already deleted) gets a NOTE. So always clean then.
+# (Checked here, not in tools/config.R: R runs configure with it set to false.)
 rust_clean: $(SHLIB)
 	rm -Rf $(CARGOTMP) $(VENDOR_DIR) @CLEAN_TARGET@
+	case "$$_R_SHLIB_BUILD_OBJECTS_SYMBOL_TABLES_" in TRUE|true|yes|1) rm -Rf $(TARGET_DIR);; esac
 
 clean:
 	rm -Rf $(SHLIB) $(STATLIB) $(OBJECTS) $(TARGET_DIR) $(VENDOR_DIR)

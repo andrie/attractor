@@ -30,6 +30,13 @@ endif
 ifneq ($(wildcard ../.git),)
   KEEP_TARGET = yes
 endif
+# R CMD check sets _R_SHLIB_BUILD_OBJECTS_SYMBOL_TABLES_ and then scans the
+# libraries in PKG_LIBS. If target/ is still there it finds Rust's std
+# referencing abort/exit in libattractor.a and reports a WARNING, where a
+# CRAN build (target/ already deleted) gets a NOTE. So always clean then.
+ifneq ($(filter TRUE true yes 1,$(_R_SHLIB_BUILD_OBJECTS_SYMBOL_TABLES_)),)
+  KEEP_TARGET =
+endif
 ifeq ($(DEBUG)$(NOT_CRAN),)
   ifneq ($(wildcard rust/vendor.tar.xz),)
     CRAN_FLAGS = -j 2 --offline
@@ -58,6 +65,9 @@ VENDOR_DIR = vendor
 
 $(STATLIB):
 	@cargo --version > /dev/null 2>&1 || { echo "cargo was not found on the PATH; install Rust (>= 1.65) from https://www.rust-lang.org/tools/install"; exit 1; }
+	# R CMD check --as-cran wants the rustc version in the install log before
+	# compilation; on Unix tools/msrv.R reports it during configure.
+	@rustc --version && cargo --version
 	mkdir -p $(RDLL_DIR) && cp "$(R_HOME)/bin/$(subst 64,x64,$(subst 32,i386,$(WIN)))/R.dll" $(RDLL_DIR)/R.dll
 	mkdir -p $(TARGET_DIR)/libgcc_mock
 	touch $(TARGET_DIR)/libgcc_mock/libgcc_eh.a
