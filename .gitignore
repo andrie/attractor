@@ -41,3 +41,6 @@ src/Makevars
 # Rust build output (cargo target dirs) and the build's temporary CARGO_HOME
 src/rust/**/target/
 src/.cargo/
+
+#
+CLAUDE.md
