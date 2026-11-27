@@ -35,7 +35,9 @@ fn configure(
 /// Count matrix of a Sprott 7e attractor.
 ///
 /// Orbit, percentile range and binning run in Rust. Returns a `dims[1] x dims[2]`
-/// numeric matrix of hit counts. Errors if the orbit diverges or collapses.
+/// numeric matrix of hit counts, with attributes `xrange` and `yrange` holding
+/// the frame (low and high percentile on each axis). Rows run along x, columns
+/// along y. Errors if the orbit diverges or collapses.
 ///
 /// @param a Numeric vector of 14 coefficients.
 /// @param n Number of points to generate.
@@ -70,6 +72,10 @@ fn attractor_matrix(
     }
     let mut robj = Robj::from(out);
     let _ = robj.set_attrib(sym!(dim), Robj::from([rows as i32, cols as i32]));
+    // the frame the points were binned into, so callers can size or crop the
+    // image to the attractor's true proportions
+    let _ = robj.set_attrib(sym!(xrange), Robj::from([res.xrange.0, res.xrange.1]));
+    let _ = robj.set_attrib(sym!(yrange), Robj::from([res.yrange.0, res.yrange.1]));
     Ok(robj)
 }
 

@@ -20,6 +20,10 @@
 #' @param discretize If `TRUE` discretizes to a matrix with dimensions `dims` else a data frame
 #'
 #' @return if `discretize == TRUE` a matrix with dimensions `dims`, else a data frame with columns `x` and `y`, and `n` rows.
+#'   The matrix has attributes `xrange` and `yrange`: the frame (the `qs` and
+#'   `1 - qs` quantiles on each axis) that the points were binned into. Rows run
+#'   along x and columns along y, so `diff(xrange) / diff(yrange)` is the
+#'   attractor's true aspect ratio in those terms.
 #' @importFrom assertthat assert_that
 #' @export
 #' @family sprott functions

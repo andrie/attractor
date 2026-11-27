@@ -348,6 +348,8 @@ impl Attractor {
             timings.orbit = stage.elapsed();
             Counts {
                 counts: Array2::zeros((0, 0)),
+                xrange: (f64::NAN, f64::NAN),
+                yrange: (f64::NAN, f64::NAN),
                 n,
                 finite: false,
                 timings: *timings,
@@ -425,6 +427,8 @@ impl Attractor {
                 progress_bar.finish();
                 return Ok(Counts {
                     counts: Array2::zeros((0, 0)),
+                    xrange: xr,
+                    yrange: yr,
                     n: done,
                     finite: false,
                     timings,
@@ -443,6 +447,8 @@ impl Attractor {
 
         Ok(Counts {
             counts: counter.into_array(img_size.0, img_size.1),
+            xrange: xr,
+            yrange: yr,
             n,
             finite: true,
             timings,
@@ -454,6 +460,11 @@ impl Attractor {
 pub struct Counts {
     /// hit counts, `width x height`; the count of pixel `(x, y)` is `counts[[x, y]]`
     pub counts: Array2<u32>,
+    /// the frame on the x axis, `(low, high)`: the percentiles of the points that
+    /// set the range; `NaN` if the orbit diverged before the range was known
+    pub xrange: (f64, f64),
+    /// the frame on the y axis, as `xrange`
+    pub yrange: (f64, f64),
     /// number of points computed (where it stopped, if it diverged)
     pub n: usize,
     /// `false` if the orbit diverged; `counts` is then empty
@@ -1011,6 +1022,28 @@ mod tests {
             assert!(got.finite);
             assert_eq!(got.counts, default_counts_reference(&att), "n = {n}");
             assert!(got.timings.discretise > Duration::ZERO);
+        }
+    }
+
+    #[test]
+    fn counts_report_a_frame_that_does_not_depend_on_size() {
+        // callers size the image from the frame, so a preview and a full render
+        // of the same orbit must agree on it
+        for k in [None, Some(4)] {
+            let frame = |img_size| {
+                let att = Attractor {
+                    n: 1_500_000,
+                    img_size,
+                    parallel_orbit: k,
+                    ..Default::default()
+                };
+                let got = att.counts().unwrap();
+                (got.xrange, got.yrange)
+            };
+            let (xr, yr) = frame((40, 30));
+            assert!(xr.0.is_finite() && xr.0 < xr.1, "k {k:?}: x {xr:?}");
+            assert!(yr.0.is_finite() && yr.0 < yr.1, "k {k:?}: y {yr:?}");
+            assert_eq!((xr, yr), frame((97, 53)), "k {k:?}");
         }
     }
 
